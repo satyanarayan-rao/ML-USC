@@ -751,7 +751,7 @@ H(j,k) = \frac{\partial^2 T(\textbf{w,x},y)}{\partial w_j \partial w_k}\end{alig
 \frac{\partial^2 T(\textbf{w,x},y)}{\partial w_j \partial w_k} = x_j * \sigma(\textbf{w}^{T}\textbf{x})*(1-\sigma(\textbf{w}^{T}\textbf{x}))*x_k \end{aligned}</script>
 </div>
 <p>Note: <span><span class="MathJax_Preview">\sigma(x) &gt;= 0 \hspace{8pt} \forall x</span><script type="math/tex">\sigma(x) >= 0 \hspace{8pt} \forall x</script></span></p>
-<p>If we fill out the hessian matrix it will look like following:</p>
+<p>If we fill out the Hessian matrix it will look like following:</p>
 <div>
 <div class="MathJax_Preview">\begin{aligned}
 H = \sigma(\textbf{w}^{T}\textbf{x})*(1-\sigma(\textbf{w}^{T}\textbf{x})) \begin{bmatrix}
@@ -771,7 +771,7 @@ x_Dx_1 & x_Dx_2 & . & . & . & x_D^2
 \end{bmatrix}\end{aligned}</script>
 </div>
 <p>Let
-$ K =  \sigma(\textbf{w}<sup>{T}\textbf{x})*(1-\sigma(\textbf{w}</sup>{T}\textbf{x}))$
+<span><span class="MathJax_Preview">K =  \sigma(\textbf{w}^{T}\textbf{x})*(1-\sigma(\textbf{w}^{T}\textbf{x}))</span><script type="math/tex">K =  \sigma(\textbf{w}^{T}\textbf{x})*(1-\sigma(\textbf{w}^{T}\textbf{x}))</script></span>
 which is always greater than or equal to zero, matrix in above
 expression can be decomposed into <span><span class="MathJax_Preview">XX^T</span><script type="math/tex">XX^T</script></span> where X is a column matrix. So
 <span><span class="MathJax_Preview">H</span><script type="math/tex">H</script></span> can be rewritten as</p>
@@ -798,7 +798,7 @@ V^THV = V^T KXX^T V = K (X^TV)^T (X^TV) = K ||X^TV||^2 &gt;=0 \hspace{20pt} \end
 <script type="math/tex; mode=display">\begin{aligned}
 V^THV = V^T KXX^T V = K (X^TV)^T (X^TV) = K ||X^TV||^2 >=0 \hspace{20pt} \end{aligned}</script>
 </div>
-<p>Since the hessian is PSD we can say that function is convex. Referring
+<p>Since the Hessian is a PSD we can say that function is convex. Referring
 to eq.(3.2) the loss function is just the linear combination of <span><span class="MathJax_Preview">T(.)</span><script type="math/tex">T(.)</script></span>.
 As we proved in the lemma that sum of convex functions is a convex
 function. Hence it is proved that the loss function is convex.</p>
