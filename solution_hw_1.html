@@ -1,0 +1,682 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Satyanarayan Rao (USC ID: 5235553465)" />
+  <title>CSCI 567 Homework #1</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">CSCI 567 Homework #1</h1>
+<h2 class="author">Satyanarayan Rao (USC ID: 5235553465)</h2>
+</div>
+<p>Collaborated with: Himanshu Joshi Rohit Kondekar Min-Gyong Shin Wonjoon Eric Sohn</p>
+<h1 id="naive-bayes">Naive Bayes</h1>
+<h2 id="parametric-form-of-naive-bayes-with-gaussian-assumption">Parametric form of Naive Bayes with Gaussian Assumption</h2>
+<p>Feature vector <span class="math inline"><em>X</em> ∈ <em>R</em><sup><em>D</em></sup></span> and <span class="math inline"><em>Y</em></span> is a binary random vector.</p>
+<p><br /><span class="math display"><em>Y</em> ∼ <em>B</em><em>e</em><em>r</em><em>n</em>(<em>π</em>)</span><br /></p>
+<p><br /><span class="math display"><em>X</em> = {<em>X</em><sub>1</sub>, ..., <em>X</em><sub><em>D</em></sub>}</span><br /></p>
+<p><br /><span class="math display"><em>P</em>(<em>X</em><sub><em>j</em></sub>|<em>Y</em> = <em>y</em><sub><em>k</em></sub>)∼<em>N</em>(<em>μ</em><sub><em>j</em><em>k</em></sub>, <em>σ</em><sub><em>j</em></sub>)</span><br /></p>
+<p>Naive Bayes assumes the conditional independence of features given <span class="math inline"><em>Y</em></span></p>
+<p><br /><span class="math display">$$P(X_i = x_i, X_j = x_j | Y = y_k) = P (X_i = x_i | Y =y_k)*P(X_j = x_j| Y= y_k) \space \forall i \neq j$$</span><br /></p>
+<p>Here we have to show that the posterior probability can be written as the posterior of logistic regression.Proceeding with above assumptions.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(Y = 1 | X ) = \frac{P(X| Y = 1)*P(Y = 1)}{P(X)}\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(X) = P(X|Y = 0)*P(Y = 0) + P (X| Y = 1)* P(Y = 1 )\end{aligned}$$</span><br /></p>
+<p>Using eq. (1.2) in (1.1) and bringing the numerator to denominator simplifies eq. (1) to the following.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(Y = 1 | X ) = \frac{1}{1 + \frac{P(X| Y = 0)*P(Y = 0)}{P(X| Y = 1 )*P(Y = 1)}}\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(X | Y = y_k) = \prod_{i=1}^D P (X_i| Y = y_k)\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(X_i | Y = y_k) = \frac{1}{(2\pi)^{1/2}\sigma_i}exp\left(-\frac{(X_i - \mu_{ik})^2}{2\sigma_{i}^2}\right)\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+P (Y = 1) = \pi , P (Y = 0 ) = 1 -\pi\end{aligned}$$</span><br /></p>
+<p>Using eq. (1.4),(1.5) and (1.6) in eq. (1.3) we get the simplified form as following</p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(Y = 1 | X ) = \frac{1}
+{1 + \frac{1 - \pi}
+{\pi} *
+\frac{\prod_{i = 1 }^{D} exp \left(- \frac{(X_i - \mu_{i0})^2}
+{2\sigma_i^2}    \right)     }
+{\prod_{i = 1 }^{D} exp \left(- \frac{(X_i - \mu_{i1})^2}
+{2\sigma_i^2}    \right) } }\end{aligned}$$</span><br /></p>
+<p>Solving further to simpler terms by assuming the following:</p>
+<p><br /><span class="math display">$$Z_{i0} = \frac{(X_i - \mu_{i0})^2}
+{2\sigma_i^2}$$</span><br /></p>
+<p><br /><span class="math display">$$Z_{i1} = \frac{(X_i - \mu_{i1})^2}
+{2\sigma_i^2}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+ Z_{i1} - Z_{i0}  = \frac{(2X_i - (\mu_{i0} + \mu_{i1}) )*(\mu_{i0} - \mu_{i1})}{2\sigma_i^2}
+ \end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+= \frac{X_i*(\mu_{i0} - \mu_{i1})}{\sigma_i^2}  - \frac{(\mu_{i0}^2 - \mu_{i1}^2)}{2\sigma_i^2}\end{aligned}$$</span><br /></p>
+<p>eq. (1.7) can be rewritten using simplified terms like <span class="math inline"><em>Z</em><sub><em>i</em>1</sub> − <em>Z</em><sub><em>i</em>0</sub></span> as following.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(Y = 1 | X ) = \frac{1}
+{1 + \frac{1-\pi}
+{\pi}*\prod_{i=1}^{D}exp \left( \frac{-(\mu_{i0}^2 - \mu_{i1}^2)}
+{2\sigma_i^2} + \frac{(\mu_{i0} - \mu_{i1})}{\sigma_i^2}*X_i   \right)}\end{aligned}$$</span><br /></p>
+<p>Product term in denominator of eq. (1.8) can be substituted with summand inside the exponential expression, and <span class="math inline">$\frac{1-\pi}{\pi}$</span> can be written as <span class="math inline">$exp\left(-log\frac{\pi}{1 - \pi}\right).$</span> Doing above changes to eq. (1.8) it reduces to the following form.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(Y = 1 | X ) = \frac{1}
+{1 + exp \left\lbrace - \left(log\frac{\pi}{1 - \pi}
++ \sum_{i = 1}^{D}\frac{(\mu_{i0}^2 - \mu_{i1}^2)}
+{2\sigma_i^2}
+\right)
++ \sum_{i = 1}^{D}\frac{(\mu_{i0} - \mu_{i1})}{\sigma_i^2}*X_i
+\right\rbrace}\end{aligned}$$</span><br /></p>
+<p>We can see clearly in eq. (1.9) that the posterior probability is taking the form of logistic regression. Comparing with the logistic regression expression. We can write the parameters as follows:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\omega_0 = \left(log\frac{\pi}{1 - \pi}
++ \sum_{i = 1}^{D}\frac{(\mu_{i0}^2 - \mu_{i1}^2)}
+{2\sigma_i^2}
+\right)\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\textbf{w} = \left[\frac{(\mu_{00} - \mu_{01})}{\sigma_1^2} , ... , \frac{(\mu_{D0} - \mu_{D1})}{\sigma_D^2}\right]^T\end{aligned}$$</span><br /></p>
+<h2 id="parametric-estimation-for-naive-bayes-with-gaussian-assumption">Parametric estimation for Naive Bayes with Gaussian assumption</h2>
+<p>We have training set of size <span class="math inline"><em>N</em></span> of the form <span class="math inline">(<strong>x</strong><sub><strong>i</strong></sub>, <em>y</em><sub><em>i</em></sub>)</span>, where</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\textbf{x}_\textbf{i} = (x_{i1}, ..., x_{iD})^T, y_i \in \{0,1\}\end{aligned}$$</span><br /></p>
+<p>Since we have to estimate the distribution parameters such as <span class="math inline"><em>π</em><sub><em>i</em></sub>, <em>μ</em><sub><em>j</em><em>k</em></sub>,</span> and <span class="math inline"><em>σ</em><sub><em>j</em></sub></span>. We can do this by writing log likelihood and differentiating w.r.t corresponding parameters and set to zero to get the values. Following derivation are for the log likelihood and parameter estimation.</p>
+<p>Joint probability can be written as</p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(X, Y ) = \prod_{i = 1 }^{N} P (X_i, Y_i)= \prod_{i = 1 }^{N} P(X_i | Y_i = y_k)*P (Y_i = y_k)\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+= \prod_{i = 1}^{N}P(Y_i = y_k)\prod_{j = 1}^{D}P(X_{ij} = x_{ij} | Y_i = y_k)\end{aligned}$$</span><br /></p>
+<p>In above deduction we have used the naive bayes assumption. Now we know the following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(Y_i = y_k) = \pi^{y_k}*(1-\pi)^{(1-y_k)}\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(X_{ij} = x_{ij} | Y_i = y_k) = \frac{1}{(2\pi)^{1/2}\sigma_j}exp\left(-\frac{(x_{ij} - \mu_{jk})^2}{2\sigma_{j}^2}\right)\end{aligned}$$</span><br /></p>
+<p>Since we know that log likelihood is the log of joint pdf. We can take the log on both side of eq. (1.10) to get the log likelihood.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+l(\theta | X, Y) = logP(X,Y) = \sum_{i = 1}^{N}\left( log P(Y_i = y_k) + \sum_{j = 1}^{D} log P (X_{ij} = x_{ij} | Y_i = y_k)
+\right)  \end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+= \sum_{i = 1}^{N} \left( y_klog\pi + (1-y_k)log(1 - \pi) + \sum_{j = 1}^{D} \left( -log ( (2\pi)^{1/2}\sigma_j - \frac{(x_{ij} - \mu_{jk})^2}
+{2\sigma_j^2}
+\right)
+\right)\end{aligned}$$</span><br /></p>
+<p>Suppose there are m data points with label 1 and N-m with label 0, above equation can be rewritten as following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+l(\theta | X, Y) = \sum_{i:Y_i = y_k = 1}y_klog\pi  + \sum_{i:Y_i = y_k = 0}(1-y_k)log(1-\pi) \\ + \sum_{i:Y_i = y_k = 1}\sum_{j=1}^{D}\left( -log (2\pi)^{1/2}\sigma_j - \frac{(x_{ij} - \mu_{j1})^2}{2\sigma} 
+\right) \\ +  \sum_{i:Y_i = y_k = 0}\sum_{j=1}^{D}\left( -log (2\pi)^{1/2}\sigma_j - \frac{(x_{ij} - \mu_{j0})^2}{2\sigma} 
+\right)\end{aligned}$$</span><br /></p>
+<p>Calculating MLE for <span class="math inline"><em>π</em></span>:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\hat{\pi} = \left\lbrace \pi: \frac{\partial l(\theta|X,Y)}{\partial\pi} = 0  \right\rbrace\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial l(\theta|X,Y)}{\partial\pi} = \frac{m}{\pi} - \frac{(N - m)}{1 - \pi} + 0 + 0  \end{aligned}$$</span><br /></p>
+<p>Equating the above equation to zero and solving for <span class="math inline"><em>π</em></span></p>
+<p><br /><span class="math display">$$\begin{aligned}
+m(1 - \pi)  - (N-m)\pi = 0 
+\implies m - N\pi = 0 
+\implies \pi = \frac{m}{N} \end{aligned}$$</span><br /></p>
+<p>So the likelihood parameter estimation of <span class="math inline"><em>π</em></span> is:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\hat{\pi} = \frac{m}{N} = \frac{\#label = 1 }{N}\end{aligned}$$</span><br /></p>
+<p>Likelihood for <span class="math inline"><em>μ</em><sub><em>j</em><em>k</em></sub></span>:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\hat{\mu}_{jk} = \left\lbrace \mu_{jk}: \frac{\partial l(\theta|X,Y)}{\partial\mu_{jk}} = 0  \right\rbrace\end{aligned}$$</span><br /></p>
+<p>We can do this in two parts, k = 0 and k = 1 for k = 0, we shall only have the fourth term in partial differentiation, other term will give zeros.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial l(\theta|X,Y)}{\partial\pi}  = \sum_{i:Y_i = y_k = 0}- \frac{(x_{ij} - \mu_{jo})}{\sigma_j^2}*(-1) = 0 \\
+\implies \sum_{i:Y_i = y_k = 0}(x_{ij} - \mu_{jo}) = 0 \end{aligned}$$</span><br /></p>
+<p>From above assumption we know the count of zero labels are <span class="math inline"><em>N</em> − <em>m</em></span> Solving above equality gives us the following</p>
+<p><br /><span class="math display">$$\begin{aligned}
+(N-m)*\mu_{j0} = \sum_{i:Y_i = y_k = 0} x_{ij}\end{aligned}$$</span><br /></p>
+<p>which gives us</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\hat{\mu}_{j0} = \frac{\sum_{i:Y_i = y_k = 0} x_{ij}}{(N-m)}\end{aligned}$$</span><br /></p>
+<p>Similarly we get the estimate for <span class="math inline"><em>μ</em><sub><em>j</em>1</sub></span></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\hat{\mu}_{j1} = \frac{\sum_{i:Y_i = y_k = 1} x_{ij}}{(m)}\end{aligned}$$</span><br /></p>
+<p>Likelihood for <span class="math inline"><em>σ</em><sub><em>j</em></sub></span>:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\hat{\sigma}_{j} = \left\lbrace \sigma_{j}: \frac{\partial l(\theta|X,Y)}{\partial\sigma_{j}} = 0  \right\rbrace\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial l(\theta|X,Y)}{\partial\sigma_{j}}  = \sum_{i:Y_i =y_k = 1} \left( -\frac{1}{\sigma_{j}} + \frac{(x_{ij} - \mu_{j1})^2}{\sigma_{j}^3}
+\right)\\
++ \sum_{i:Y_i = y_k = 0} \left( -\frac{1}{\sigma_{j}} + \frac{(x_{ij} - \mu_{j0})^2}{\sigma_{j}^3}
+\right)\\
+= - \frac{N}{\sigma_{j}} + \frac{\sum_{i = 1 }^{N}\left( y_k (x_{ij} - \mu_{j1})^2 + (1 - y_k ) (x_{ij} - \mu_{j0})^2\right)}
+{\sigma_{j}^3}\end{aligned}$$</span><br /></p>
+<p>Equating it to zero will give the following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\sigma_{j}^2 = \frac{\sum_{i = 1 }^{N}\left( y_k (x_{ij} - \mu_{j1})^2 + (1 - y_k ) (x_{ij} - \mu_{j0})^2\right)}
+{N}\\
+\implies \hat{\sigma}_{j} = \sqrt{\frac{\sum_{i = 1 }^{N}\left( y_k (x_{ij} - \mu_{j1})^2 + (1 - y_k ) (x_{ij} - \mu_{j0})^2\right)}
+{N}}\end{aligned}$$</span><br /></p>
+<h1 id="nearest-neighbor">Nearest Neighbor</h1>
+<h2 id="feature-weighting-in-low-dimension">Feature weighting in low dimension</h2>
+<p>Feature weighting is required in case of noise, because noise affect the euclidean distance measures which can lead to poor performance of KNN. This is also known as Achilles’ heel of KNN. In case of low dimension <span class="math inline"><em>D</em> = 3</span> with discretized values of weights in each dimension. We can do grid search to look for the optimal weights which can give the best training accuracy. The procedure explained below can be used to find the optimal weights for the features. Here we have following assumption</p>
+<p><br /><span class="math display">$$\begin{aligned}
+X_i = \left(x_{i1}, x_{i2}, x_{i3}\right)^T\\
+W = \left(w_1, w_2, w_3\right)\\
+w_i \in \{w_{i1}, w_{i2}, .,.,., w_{ik}\}\end{aligned}$$</span><br /></p>
+<p>The weights has been discretized to <span class="math inline"><em>k</em></span> values. We can just do grid search by using following pseudo code. opt (W) = {} for <span class="math inline"><em>w</em><sub>1</sub> = <em>w</em><sub>11</sub> : <em>w</em><sub>1<em>k</em></sub></span></p>
+<p>for <span class="math inline"><em>w</em><sub>2</sub> = <em>w</em><sub>21</sub> : <em>w</em><sub>2<em>k</em></sub></span></p>
+<p>for <span class="math inline"><em>w</em><sub>3</sub> = <em>w</em><sub>31</sub> : <em>w</em><sub>3<em>k</em></sub></span></p>
+<p>for <span class="math inline"><em>i</em> = 1 : <em>N</em></span></p>
+<p>for <span class="math inline"><em>j</em> ≠ <em>i</em> = 1 : <em>N</em></span></p>
+<p>compute <span class="math inline"><em>d</em>(<em>X</em><sub><em>i</em></sub>, <em>X</em><sub><em>j</em></sub>)</span></p>
+<p>end</p>
+<p>end</p>
+<p>Compute the training accuracy and update opt(W) if accuracy is</p>
+<p>better.</p>
+<p>end</p>
+<p>end</p>
+<p>end</p>
+<p>For this approach we can also use dynamic programming to reduce the computation, we can maintain the <span class="math inline"><em>N</em></span>x<span class="math inline"><em>N</em></span>x<span class="math inline"><em>D</em></span> matrix with entries of euclidean distances of feature vectors. Afterwards we can use this matrix as lookup table and just multiply with the weights to get the weighted feature distance. Using the Dynamic programming approach will lead to following complexity: Time complexity:</p>
+<p><br /><span class="math display"><em>O</em>(<em>k</em><sup>3</sup>)</span><br /></p>
+<p>Space complexity:</p>
+<p><br /><span class="math display"><em>O</em>(<em>N</em><sup>2</sup>)</span><br /></p>
+<h2 id="feature-weighting-in-higher-dimensions">Feature weighting in higher dimensions</h2>
+<p>In higher dimension above approach of finding optimal weight will lead to exponential time complexity <span class="math inline"><em>O</em>(<em>k</em><sup><em>D</em></sup>)</span>. This is curse of dimensionality. As being instructed by TA that we do not have to use any statistical approach to construct the method for assigning weights to features (We have to design algorithm). If we present the weighted distances calculation in matrix form, it will appear as follows:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\hat{Label}(X_1) = Label \left(X_j : j = \min_{j}
+\begin{bmatrix}
+w_1 &amp;  . &amp;  w_D
+\end{bmatrix}
+\begin{bmatrix}
+(x_{11} - x_{21})^2 &amp;  (x_{11} - x_{31})^2 &amp;  . &amp; (x_{11} - x_{N1})^2 \\
+(x_{12} - x_{22})^2  &amp; (x_{12} - x_{32})^2 &amp;  . &amp; (x_{12} - x_{N2})^2 \\
+.  &amp; . &amp; .  &amp; . &amp; \\
+.  &amp; . &amp; .  &amp; . &amp; \\
+(x_{1D} - x_{2D})^2 &amp; (x_{1D} - x_{3D})^2  &amp;  . &amp; (x_{1D} - x_{ND})^2
+\end{bmatrix}
+\right)\end{aligned}$$</span><br /></p>
+<p>We do above calculation for every data point. Since there are <span class="math inline"><em>k</em><sup><em>D</em></sup></span> possible matrices <span class="math inline">[<em>w</em><sub>1</sub>...<em>w</em><sub><em>D</em></sub>]</span>, we can not calculate this in polynomial time. One way to select meaningful features from the haystack is to calculate the training accuracy on each individual feature by setting other’s weight to zero. we assign the weight to be training accuracy of that individual feature. We can decide how many feature we have to take into consideration. This will result into the limited features with weight assigned on each of them. <strong>2nd method</strong> Objective function for above problem will look like following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+J(W) = \sum_{i=1}^{N}\left( \hat{Label}(X_i) - Label (X_i) \right)\end{aligned}$$</span><br /></p>
+<p>The characteristic of above objective function is a curve in higher dimension with multiple local minimum. We can use the gradient descent approach to find the local minima’s we can start with different set of random weight vectors and try to find the different minimum, select the best one out of these and return those weight vectors as weighted feature vector. This is a polynomial time algorithm, but of course this may not give the optimal solution.</p>
+<h1 id="logistic-regression">Logistic regression</h1>
+<h2 id="negative-log-likelihood-or-loss-function">Negative log likelihood or Loss function</h2>
+<p><br /><span class="math display">$$\begin{aligned}
+\mathcal{L}(\textbf{w}) = -\log\left( \prod_{1= 1}^{n}P (Y = Y_i | \textbf{X} = \textbf{x}_{\textbf{i}})
+\right)\end{aligned}$$</span><br /></p>
+<p>We know that</p>
+<p><br /><span class="math display">$$\begin{aligned}
+P (Y = 1 | \textbf{X} = \textbf{x}_{\textbf{i}} ) = \frac{1}{1 + \exp(-\textbf{w}^{T}\textbf{x}_{\textbf{i}})} = \sigma(\textbf{w}^{T}\textbf{x}_{\textbf{i}})\\\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+P (Y = 0 | \textbf{X} = \textbf{x}_{\textbf{i}} ) =  1 - \sigma(\textbf{w}^{T}\textbf{x}_{\textbf{i}})\\\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+P (Y = y_i | \textbf{X} = \textbf{x}_{\textbf{i}} ) = \sigma(\textbf{w}^{T}\textbf{x}_{\textbf{i}})^{y_i} (  1 - \sigma(\textbf{w}^{T}\textbf{x}_{\textbf{i}}) )^{1-y_i}\\
+\log P (Y = y_i | \textbf{X} = \textbf{x}_{\textbf{i}} )  = y_i \log \sigma(\textbf{w}^{T}\textbf{x}_{\textbf{i}}) + (1-y_i)\log(  1 - \sigma(\textbf{w}^{T}\textbf{x}_{\textbf{i}}) )\end{aligned}$$</span><br /></p>
+<p>Writing the negative log likelihood in simpler form using above expression</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\mathcal{L}(\textbf{w}) = - \sum_{i = 1 }^{n} \log(P (Y = y_i| \textbf{X} = \textbf{x}_{\textbf{i}}))\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\mathcal{L}(\textbf{w}) = - \sum_{i = 1 }^{n} \left(y_i \log \sigma(\textbf{w}^{T}\textbf{x}_{\textbf{i}}) + (1-y_i)\log(  1 - \sigma(\textbf{w}^{T}\textbf{x}_{\textbf{i}}) ) 
+\right)\end{aligned}$$</span><br /></p>
+<h2 id="proof-for-convexity-of-loss-function">Proof for convexity of loss function</h2>
+<p>To prove the convexity we are going to show that the hessian matrix will be positive semidefinite. In order to make the derivation simpler we are going to use the property of convex functions. If <span class="math inline"><em>f</em>(<em>x</em>)</span> and <span class="math inline"><em>g</em>(<em>x</em>)</span> are two convex function then their sum <span class="math inline"><em>h</em>(<em>x</em>)</span> is also going to be the convex function Proof: As we know from the property of convex function</p>
+<p><br /><span class="math display"><em>f</em>(<em>λ</em><em>x</em><sub>1</sub> + (1 − <em>λ</em>)<em>x</em><sub>2</sub>)&lt; = <em>λ</em><em>f</em>(<em>x</em><sub>1</sub>)+(1 − <em>λ</em>)<em>f</em>(<em>x</em><sub>2</sub>)</span><br /></p>
+<p><br /><span class="math display"><em>g</em>(<em>λ</em><em>x</em><sub>1</sub> + (1 − <em>λ</em>)<em>x</em><sub>2</sub>)&lt; = <em>λ</em><em>g</em>(<em>x</em><sub>1</sub>)+(1 − <em>λ</em>)<em>g</em>(<em>x</em><sub>2</sub>)</span><br /></p>
+<p>Adding above two equations we get the following:</p>
+<p><br /><span class="math display"><em>f</em>(<em>λ</em><em>x</em><sub>1</sub> + (1 − <em>λ</em>)<em>x</em><sub>2</sub>)+<em>g</em>(<em>λ</em><em>x</em><sub>1</sub> + (1 − <em>λ</em>)<em>x</em><sub>2</sub>)&lt; = <em>λ</em><em>f</em>(<em>x</em><sub>1</sub>)+(1 − <em>λ</em>)<em>f</em>(<em>x</em><sub>2</sub>)+<em>λ</em><em>g</em>(<em>x</em><sub>1</sub>)+(1 − <em>λ</em>)<em>g</em>(<em>x</em><sub>2</sub>)</span><br /></p>
+<p><br /><span class="math display"><em>h</em>(<em>λ</em><em>x</em><sub>1</sub> + (1 − <em>λ</em>)<em>x</em><sub>2</sub>)) &lt; =<em>λ</em><em>h</em>(<em>x</em><sub>1</sub>)+(1 − <em>λ</em>)<em>h</em>(<em>x</em><sub>2</sub>)</span><br /></p>
+<p>So <span class="math inline"><em>h</em>(<em>x</em>)</span> is also convex. Multiplying by any positive constant preserves the convexity. Considering just one term from loss function.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+T(\textbf{w,x},y) = - \left(y \log \sigma(\textbf{w}^{T}\textbf{x}) + (1-y)\log(  1 - \sigma(\textbf{w}^{T}\textbf{x}) ) 
+\right)\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\mathcal{L}(\textbf{w}) = \sum_{i = 1}^{n}T(\textbf{w,}\textbf{x}_{\textbf{i}},y_i)\end{aligned}$$</span><br /></p>
+<p>If we prove that <span class="math inline"><em>T</em>(<strong>w,x</strong>, <em>y</em>)</span> is convex then we can say that <span class="math inline">ℒ(<strong>w</strong>)</span> is convex (by above proved lemma).</p>
+<p><br /><span class="math display">$$\begin{aligned}
+T(\textbf{w,x},y) = - \left(y \log \sigma(\textbf{w}^{T}\textbf{x}) + (1-y)\log(  1 - \sigma(\textbf{w}^{T}\textbf{x}) ) 
+\right)\\
+= -y\log \left(\frac{1}{1 + \exp(-\textbf{w}^{T}\textbf{x})}
+\right) - (1-y)\log\left(1 - \frac{1}{1 + \exp(-\textbf{w}^{T}\textbf{x})}
+\right)\\
+=y\log \left( 1 + \exp(-\textbf{w}^{T}\textbf{x})
+\right) - (1-y)\log\left(\frac{\exp(-\textbf{w}^{T}\textbf{x})}{1 + \exp(-\textbf{w}^{T}\textbf{x})}
+\right)\\
+= y\log \left( 1 + \exp(-\textbf{w}^{T}\textbf{x})
+\right) - (1-y) \left( -\textbf{w}^{T}\textbf{x} - \log\left(  1 + \exp(-\textbf{w}^{T}\textbf{x}
+\right)
+\right)\\
+=(1-y) \textbf{w}^{T}\textbf{x} + \log \left( 1 + \exp(-\textbf{w}^{T}\textbf{x})
+\right)\end{aligned}$$</span><br /></p>
+<p>Finally we get:</p>
+<p><br /><span class="math display"><em>T</em>(<strong>w,x</strong>, <em>y</em>)=(1 − <em>y</em>)<strong>w</strong><sup><em>T</em></sup><strong>x</strong> + log(1+exp(−<strong>w</strong><sup><em>T</em></sup><strong>x</strong>))</span><br /></p>
+<p>We need to find the hessian<span class="math inline">(<em>H</em>)</span> of this which is basically <span class="math inline"><em>D</em></span>x<span class="math inline"><em>D</em></span> matrix and the element <span class="math inline"><em>H</em>(<em>j</em>, <em>k</em>)</span> is:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+H(j,k) = \frac{\partial^2 T(\textbf{w,x},y)}{\partial w_j \partial w_k}\end{aligned}$$</span><br /></p>
+<p>Now calculating the <span class="math inline"><em>H</em>(<em>j</em>, <em>k</em>)</span>. Calculating the first derivative.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial T(\textbf{w,x},y)}{\partial w_j} = \frac{-x_j * \exp(-\textbf{w}^{T}\textbf{x})}{ 1 + \exp(-\textbf{w}^{T}\textbf{x})} + x_j(1-y)\\
+= -x_j\left( 1 - \frac{1}{1 + \exp(-\textbf{w}^{T}\textbf{x})}
+\right) +x_j(1-y)\end{aligned}$$</span><br /></p>
+<p>Differentiating above w.r.t. <span class="math inline"><em>w</em><sub><em>k</em></sub></span></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial^2 T(\textbf{w,x},y)}{\partial w_j \partial w_k} = 0 + x_j \left[ \frac{(-1)*\exp(-\textbf{w}^{T}\textbf{x})*(-x_k) }{\left( 1 + \exp(-\textbf{w}^{T}\textbf{x})
+\right)^2}
+\right] + 0 \\
+= x_j * \sigma(\textbf{w}^{T}\textbf{x})*(1-\sigma(\textbf{w}^{T}\textbf{x}))*x_k\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial^2 T(\textbf{w,x},y)}{\partial w_j \partial w_k} = x_j * \sigma(\textbf{w}^{T}\textbf{x})*(1-\sigma(\textbf{w}^{T}\textbf{x}))*x_k \end{aligned}$$</span><br /></p>
+<p>Note: <span class="math inline">$\sigma(x) &gt;= 0 \hspace{8pt} \forall x$</span></p>
+<p>If we fill out the hessian matrix it will look like following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+H = \sigma(\textbf{w}^{T}\textbf{x})*(1-\sigma(\textbf{w}^{T}\textbf{x})) \begin{bmatrix}
+x_1^2 &amp; x_1x_2 &amp;  . &amp; .&amp; . &amp; x_1x_D\\
+.  &amp; . &amp; . &amp; . &amp; . &amp; . &amp; \\
+.  &amp; . &amp; . &amp; . &amp; . &amp; . &amp; \\
+.  &amp; . &amp; . &amp; . &amp; . &amp; . &amp; \\
+x_Dx_1 &amp; x_Dx_2 &amp; . &amp; . &amp; . &amp; x_D^2
+\end{bmatrix}\end{aligned}$$</span><br /></p>
+<p>Let <span class="math inline"><em>K</em> = <em>σ</em>(<strong>w</strong><sup><em>T</em></sup><strong>x</strong>)*(1 − <em>σ</em>(<strong>w</strong><sup><em>T</em></sup><strong>x</strong>))</span> which is always greater than or equal to zero, matrix in above expression can be decomposed into <span class="math inline"><em>X</em><em>X</em><sup><em>T</em></sup></span> where X is a column matrix. So <span class="math inline"><em>H</em></span> can be rewritten as</p>
+<p><br /><span class="math display">$$\begin{aligned}
+H = K XX^T\end{aligned}$$</span><br /></p>
+<p>where</p>
+<p><br /><span class="math display">$$X = \begin{bmatrix}
+x_1 &amp; x_2 &amp; . &amp; . &amp; .&amp; . x_D
+\end{bmatrix}^T$$</span><br /></p>
+<p><span class="math inline"><em>H</em></span> is a positive semidefinite matrix because if we take any vector <span class="math inline"><em>V</em></span> and calculate <span class="math inline"><em>V</em><sup><em>T</em></sup><em>H</em><em>V</em></span> then it is always <span class="math inline">&gt; = 0</span>. Following is the proof.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+V^THV = V^T KXX^T V = K (X^TV)^T (X^TV) = K ||X^TV||^2 &gt;=0 \hspace{20pt} \end{aligned}$$</span><br /></p>
+<p>Since the hessian is PSD we can say that function is convex. Referring to eq.(3.2) the loss function is just the linear combination of <span class="math inline"><em>T</em>(.)</span>. As we proved in the lemma that sum of convex functions is a convex function. Hence it is proved that the loss function is convex.</p>
+<h2 id="magnitude-of-optimal-w">Magnitude of optimal w </h2>
+<p>Considering the binary logistic regression and samples are linearly separable.</p>
+<h4 id="section"></h4>
+<p>When sample points are linearly separable then the features determine the label deterministically, it implies that given the feature vector (with true label 1) the regression model should predict the label with probability close to 1, and if the feature vector belongs to label 0 then model should predict the probability close to zero. Lets look at the logistic regression model</p>
+<p><br /><span class="math display">$$\begin{aligned}
+P(Y = 1 | X) = \sigma(\textbf{w}^{T}\textbf{x}) = \frac{1}{1 + \exp(-\textbf{w}^{T}\textbf{x})}\end{aligned}$$</span><br /></p>
+<p>For linearly separable data <span class="math inline"><em>P</em>(<em>Y</em> = 1|<em>X</em>)</span> should either be 0 or 1 in principle. This implies that <span class="math inline"><strong>w</strong><sup><em>T</em></sup><strong>x</strong></span> should either goes to <span class="math inline">−∞</span> or <span class="math inline">∞</span> irrespective of <span class="math inline"><strong>x</strong></span></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\textbf{w}^{T}\textbf{x} \longrightarrow \infty \hspace{14pt} \text{when \textbf{x} determines Y = 1}\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\textbf{w}^{T}\textbf{x} \longrightarrow -\infty \hspace{14pt} \text{when \textbf{x} determines Y = 0}\end{aligned}$$</span><br /></p>
+<p>both of above statement implies for perfect Logistic regression classifier <span class="math inline">||<strong>w</strong>||<sup>2</sup></span> should tend to infinity for above two statements to be valid. Following figure can explain the behavior of <span class="math inline"><em>σ</em>(.)</span> on different values of w.</p>
+<p>At high value of w (Fig.1 (c)), we can see the strong confidence of taking the decision (no value of <span class="math inline"><em>σ</em>(.)</span> lying between 0 and 1).</p>
+<h2 id="regularized-logistic-regression">Regularized logistic regression</h2>
+<p>Since optimal <span class="math inline"><strong>w</strong> → ∞</span>, in order to handle the numerical instability the regularization term is being added to the loss function, and the regularized linear regression looks like following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\mathcal{L} (\textbf{w}) = -\log\left( \prod_{1= 1}^{n}P (Y = Y_i | \textbf{X} = \textbf{x}_{\textbf{i}})
+\right) + \lambda||\textbf{w}||_2^2\end{aligned}$$</span><br /></p>
+<p>Computing gradient w.r.t. <span class="math inline"><em>ω</em><sub><em>i</em></sub></span>. Referring to eq. (3.2) and the first derivative of <span class="math inline"><em>T</em>(<strong>w,x</strong>, <em>y</em>)</span></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\mathcal{L}(\textbf{w}) = \sum_{i = 1}^{n}T(\textbf{w,}\textbf{x}_{\textbf{i}},y_i) +  \lambda||\textbf{w}||_2^2\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial \mathcal{L}(\textbf{w})}{\partial \omega_j}  =  \sum_{i = 1 }^{n} \frac{\partial T(\textbf{w,}\textbf{x}_{\textbf{i}},y_i) }{\partial \omega_j} + 2\lambda \omega_j\end{aligned}$$</span><br /></p>
+<p>We have already calculated the term <span class="math inline">$\frac{\partial T(\textbf{w,}\textbf{x}_{\textbf{i}},y_i) }{\partial \omega_j}$</span> in the process of proving the hessian matrix to be PSD. We can just plugin that term here. After plugging in the term we get the following :</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial \mathcal{L}(\textbf{w})}{\partial \omega_j}  = \sum_{i = 1 }^{n} \left( -x_j\left( 1 - \frac{1}{1 + \exp(-\textbf{w}^{T}\textbf{x}_{\textbf{i}})}
+\right) +x_j(1-y_i)
+\right)
++ 2\lambda\omega_j\end{aligned}$$</span><br /></p>
+<p>Further simplifying above equation( <span class="math inline"><em>x</em><sub><em>j</em></sub></span> cancels out ).</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial \mathcal{L}(\textbf{w})}{\partial \omega_j}  = \sum_{i = 1 }^{n} \left( -x_j\left( y_i - \frac{1}{1 + \exp(-\textbf{w}^{T}\textbf{x}_{\textbf{i}})}
+\right)
+\right)
++ 2\lambda\omega_j \\
+= -\sum_{i = 1 }^{n} \left( x_j\left( y_i - P(Y_i = 1 |X = \textbf{x}_{\textbf{i}} )
+\right)
+\right)
++ 2\lambda\omega_j\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+\frac{\partial \mathcal{L}(\textbf{w})}{\partial \omega_j}  =
+-\sum_{i = 1 }^{n} \left( x_j\left( y_i - P(Y_i = 1 |X = \textbf{x}_{\textbf{i}} )
+\right)
+\right)
++ 2\lambda\omega_j\end{aligned}$$</span><br /></p>
+<h2 id="unique-solution-of-the-regularized-loss-function">Unique solution of the regularized loss function</h2>
+<p>Since we have already proven that the loss function without regularization is convex and the regularization term is also convex (beacuse <span class="math inline"><em>λ</em> &gt; 0</span> and <span class="math inline">||<strong>w</strong>||<sup>2</sup> &gt; 0</span>) so the linear combination will always be convex. There will be <span class="math inline"><strong>w</strong><sup>*</sup></span> for which</p>
+<p><br /><span class="math display">$$\begin{aligned}
+\mathcal{L}(\textbf{w}^*) &lt;\mathcal{L}(\textbf{w}) \hspace{10pt} \forall \text{\textbf{w}}\neq \text{\textbf{w}}^*\in \text{\textbf{W}} \end{aligned}$$</span><br /></p>
+<p>We can start at any <span class="math inline"><strong>w</strong><sub>0</sub></span> and reach <span class="math inline"><strong>w</strong><sup>*</sup></span> by using gradient descent approach.</p>
+<h1 id="decision-tree">Decision Tree</h1>
+<h2 id="building-a-decision-tree">Building a decision tree</h2>
+<p><strong>Selection of predictor to form the decision tree</strong> We shall be choosing the predictor which can maximize the information gain.</p>
+<p><br /><span class="math display">$$\begin{aligned}
+IG(Predictor) = H(Target) - H(Target|Predictor)\\\end{aligned}$$</span><br /></p>
+<p>Where <span class="math inline"><em>H</em>(<em>T</em><em>a</em><em>r</em><em>g</em><em>e</em><em>t</em>)</span> is the entropy of target and <span class="math inline"><em>H</em>(<em>T</em><em>a</em><em>r</em><em>g</em><em>e</em><em>t</em>|<em>P</em><em>r</em><em>e</em><em>d</em><em>i</em><em>c</em><em>t</em><em>o</em><em>r</em>)</span> is conditional entropy over predictor which is basically weighted sum of entropies of each branch after splitting using the predictor Here we have</p>
+<p><br /><span class="math display">$$\begin{aligned}
+Predictor \in \{Weather, Traffic\}
+,\hspace{10pt}Taget \in \{Accident\hspace{3pt}rate\}\end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+IG(Weather) = H(Accident\hspace{3pt}rate ) - H(Accident\hspace{3pt}rate|Weather)\\
+IG(Traffic) = H(Accident\hspace{3pt}rate ) - H(Accident\hspace{3pt}rate|Traffic)\end{aligned}$$</span><br /></p>
+<p>Looking at eq. (4.1) and (4.2) we can say that the predictor which gives minimum conditional entropy will lead to maximum information gain. So we just calculate the conditional entropy and decide the predictor to do the splitting in order to form decision tree.</p>
+<p><strong>Case 1:</strong> Choosing <span class="math inline"><em>W</em><em>e</em><em>a</em><em>t</em><em>h</em><em>e</em><em>r</em></span> as root for sunny branch the uncertainty will be following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+-\left(\frac{23}{28}\log_2\frac{23}{28} + \frac{5}{28}\log_2\frac{5}{28}
+\right) = 0.6769\end{aligned}$$</span><br /></p>
+<p>for rainy branch the uncertainty will be following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+-\left(\frac{50}{72}\log_2\frac{50}{72} + \frac{22}{72}\log_2\frac{22}{72}
+\right) = 0.8880\end{aligned}$$</span><br /></p>
+<p>the condition entropy would be the weighted average over the branches:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+H(Accident\hspace{3pt}rate | Weather) = \frac{28}{100}*0.6769 + \frac{72}{100}*0.8880 =  0.8289\end{aligned}$$</span><br /></p>
+<p><strong>Case 2:</strong> Choosing <span class="math inline"><em>T</em><em>r</em><em>a</em><em>f</em><em>f</em><em>i</em><em>c</em></span> as root for heavy branch the uncertainty will be following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+-\left(\frac{73}{73}\log_2\frac{73}{73} + \frac{0}{73}\log_2\frac{0}{73}
+\right) = 0\end{aligned}$$</span><br /></p>
+<p>for light branch the uncertainty will be following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+-\left(\frac{0}{27}\log_2\frac{0}{27} + \frac{27}{27}\log_2\frac{27}{27}
+\right) = 0\end{aligned}$$</span><br /></p>
+<p>the condition entropy would be the weighted average over the branches:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+H(Accident\hspace{3pt}rate | Weather) = \frac{73}{100}*0 + \frac{27}{100}*0 =  0\end{aligned}$$</span><br /></p>
+<p>So we choose the <span class="math inline"><em>T</em><em>r</em><em>a</em><em>f</em><em>f</em><em>i</em><em>c</em></span> predictor as the root of decision tree because it will has the maximum information gain.</p>
+<h2 id="relationship-between-two-decision-trees">Relationship between two decision trees</h2>
+<p><strong>T1:</strong> Given the data, the decision tree has been built on some parameter <span class="math inline"><em>θ</em></span>. <strong>T2:</strong> The data has been normalized by subtracting the mean and divided by variance. The tree has been built on this new normalized data.</p>
+<h4 id="section-1"></h4>
+<p><strong>T1</strong> and <strong>T2</strong> will be same if the parameters used in building the decision tree is function of data points else it will be different. Here is a simple example when <strong>T1</strong> and <strong>T2</strong> can be different suppose we have five measurements of temperature as following</p>
+<p><br /><span class="math display">{ − 90, −6, −1, 2, 5}</span><br /></p>
+<p>Now we choose a parameter for splitting is <span class="math inline"><em>T</em> &lt; 0</span> belongs left subtree and <span class="math inline"><em>T</em> &gt; 0</span> to right. Lets call this <strong>T1</strong>. The mean of above data set <span class="math inline">−15</span>, the variance is always going to be positive, so it is not going to make change, for this reason I am ignoring the variance. Let the variance = <span class="math inline"><em>k</em></span>. The new data set will look like following:</p>
+<p><br /><span class="math display">{ − 75/<em>k</em>, 9/<em>k</em>, 14/<em>k</em>, 17/<em>k</em>, 20/<em>k</em>}</span><br /></p>
+<p>Now if you use the same parameter to build the new tree we will have one data point on left subtree and 4 data points on right subtree. Lets call this <strong>T2</strong>. We can say for sure that <strong>T1</strong> and <strong>T2</strong> are different. Since we had the splitting parameter independent of the data points.</p>
+<h4 id="section-2"></h4>
+<p>In case of parameters being dependent on the data points, the aforementioned transformation will not change the characteristics of data in new setting. If we expand the transformation of data point, it will look like following:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+ X_i \longrightarrow \left(\frac{X_i}{\sigma^2} - \frac{\mu}{\sigma^2}\right)
+ \end{aligned}$$</span><br /></p>
+<p>So it is one to one mapping from old reference system to new one ( scaled by <span class="math inline">$\frac{1}{\sigma^2}$</span> and then subtracted by <span class="math inline">$\frac{\mu}{\sigma^2}$</span>). So the order of data points remain the same in new reference system and the same effect will reflect to the corresponding parameter calculations. In conclusion the new tree <strong>T2</strong> will be same as <strong>T1</strong>.</p>
+<h2 id="comparison-of-gini-index-and-cross-entropy">Comparison of Gini index and Cross entropy</h2>
+<p>We are given:</p>
+<p><br /><span class="math display">$$\begin{aligned}
+GI = \sum_{k=1}^{K} p_k(1-p_k) \end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+CE = - \sum_{k=1}^{K} p_k \log p_k \end{aligned}$$</span><br /></p>
+<p><br /><span class="math display">$$\begin{aligned}
+GI - CE = \sum_{k=1}^{K}p_k(1-p_k + \log(p_k)) \\
+= \sum_{k = 1}^{K} p_k(q_k + \log(1-q_k))\\
+=\sum_{k=1}^{K} p_k\left(q_k + \left( -q_k - \frac{q_k^2}{2} - \frac{q_k^3}{3} . . . 
+\right)   
+\right)\\
+= \sum_{k=1}^{K} p_k\left(-\frac{q_k^2}{2} - \frac{q_k^3}{3} . . .
+\right)&lt;=0 \\
+\hspace{20pt} \text{becasue }p_k , &amp; q_k \text{are both non-negative}\end{aligned}$$</span><br /></p>
+<h1 id="programming">Programming</h1>
+<h2 id="performace-comparision" class="unnumbered">5.4 Performace comparision</h2>
+<p>In case of Naive bayes real valued feature has been used. I am changing the code now, so I can not attach the new values, since it was informed just one day before the assignment submission. I will try my best to modify the code and submit the electronic version compatible with binary feature support. But I believe the accuracies will remain the same. Please take this into consideration. The tables below contain the performance of different methods.</p>
+<table>
+<caption>Performance at kNN at different values of k </caption>
+<tbody>
+<tr class="odd">
+<td align="center">K</td>
+<td align="center">Train accu.</td>
+<td align="center">Valid accu.</td>
+<td align="center">Test accu.</td>
+</tr>
+<tr class="even">
+<td align="center">[0.5ex] 1</td>
+<td align="center">77.7895</td>
+<td align="center">75.5784</td>
+<td align="center">79.4344</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">83.1579</td>
+<td align="center">80.4627</td>
+<td align="center">86.3753</td>
+</tr>
+<tr class="even">
+<td align="center">5</td>
+<td align="center">86.6316</td>
+<td align="center">83.2905</td>
+<td align="center">90.7455</td>
+</tr>
+<tr class="odd">
+<td align="center">7</td>
+<td align="center">88.4211</td>
+<td align="center">84.0617</td>
+<td align="center">89.2031</td>
+</tr>
+<tr class="even">
+<td align="center">9</td>
+<td align="center">88.6316</td>
+<td align="center">86.8895</td>
+<td align="center">89.4602</td>
+</tr>
+<tr class="odd">
+<td align="center">11</td>
+<td align="center">89.0526</td>
+<td align="center">86.3753</td>
+<td align="center">87.9177</td>
+</tr>
+<tr class="even">
+<td align="center">13</td>
+<td align="center">188.4211</td>
+<td align="center">85.6041</td>
+<td align="center">87.9177</td>
+</tr>
+<tr class="odd">
+<td align="center">15</td>
+<td align="center">87.0526</td>
+<td align="center">82.7763</td>
+<td align="center">86.3753</td>
+</tr>
+<tr class="even">
+<td align="center">17</td>
+<td align="center">85.8947</td>
+<td align="center">82.5193</td>
+<td align="center">86.1183</td>
+</tr>
+<tr class="odd">
+<td align="center">19</td>
+<td align="center">85.2632</td>
+<td align="center">82.2622</td>
+<td align="center">85.3470</td>
+</tr>
+<tr class="even">
+<td align="center">21</td>
+<td align="center">85.3684</td>
+<td align="center">80.9769</td>
+<td align="center">84.8329</td>
+</tr>
+<tr class="odd">
+<td align="center">23</td>
+<td align="center">84.5263</td>
+<td align="center">82.5193</td>
+<td align="center">84.3188</td>
+</tr>
+<tr class="even">
+<td align="center">[1ex]</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>[table:nonlin]</p>
+<table>
+<caption>Decision Tree with different MinLeaf (Gini Index) </caption>
+<tbody>
+<tr class="odd">
+<td align="center">MinLeaf</td>
+<td align="center">Train accu.</td>
+<td align="center">Valid accu.</td>
+<td align="center">Test accu.</td>
+</tr>
+<tr class="even">
+<td align="center">[0.5ex] 1</td>
+<td align="center">96.7368</td>
+<td align="center">93.3883</td>
+<td align="center">94.7636</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">96.7368</td>
+<td align="center">93.3883</td>
+<td align="center">94.7636</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">96.5263</td>
+<td align="center">93.9409</td>
+<td align="center">94.7636</td>
+</tr>
+<tr class="odd">
+<td align="center">4</td>
+<td align="center">96.5263</td>
+<td align="center">93.9409</td>
+<td align="center">94.7636</td>
+</tr>
+<tr class="even">
+<td align="center">5</td>
+<td align="center">96.3158</td>
+<td align="center">94.1839</td>
+<td align="center">95.0642</td>
+</tr>
+<tr class="odd">
+<td align="center">6</td>
+<td align="center">96.2105</td>
+<td align="center">94.6859</td>
+<td align="center">94.8224</td>
+</tr>
+<tr class="even">
+<td align="center">7</td>
+<td align="center">96.0000</td>
+<td align="center">94.9121</td>
+<td align="center">94.8797</td>
+</tr>
+<tr class="odd">
+<td align="center">8</td>
+<td align="center">95.8947</td>
+<td align="center">95.1871</td>
+<td align="center">95.3046</td>
+</tr>
+<tr class="even">
+<td align="center">9</td>
+<td align="center">95.2632</td>
+<td align="center">94.6185</td>
+<td align="center">94.2199</td>
+</tr>
+<tr class="odd">
+<td align="center">10</td>
+<td align="center">94.7368</td>
+<td align="center">93.8334</td>
+<td align="center">94.2786</td>
+</tr>
+<tr class="even">
+<td align="center">[1ex]</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>[table:nonlin]</p>
+<table>
+<caption>Decision Tree with different MinLeaf (Cross Entropy)</caption>
+<tbody>
+<tr class="odd">
+<td align="center">MinLeaf</td>
+<td align="center">Train accu.</td>
+<td align="center">Valid accu.</td>
+<td align="center">Test accu.</td>
+</tr>
+<tr class="even">
+<td align="center">[0.5ex] 1</td>
+<td align="center">97.0526</td>
+<td align="center">93.3505</td>
+<td align="center">94.2163</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">97.0526</td>
+<td align="center">93.3505</td>
+<td align="center">94.2163</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">96.8421</td>
+<td align="center">93.9032</td>
+<td align="center">94.2163</td>
+</tr>
+<tr class="odd">
+<td align="center">4</td>
+<td align="center">96.8421</td>
+<td align="center">93.9032</td>
+<td align="center">94.2163</td>
+</tr>
+<tr class="even">
+<td align="center">5</td>
+<td align="center">96.6316</td>
+<td align="center">94.1462</td>
+<td align="center">94.5168</td>
+</tr>
+<tr class="odd">
+<td align="center">6</td>
+<td align="center">96.5263</td>
+<td align="center">94.6482</td>
+<td align="center">94.2750</td>
+</tr>
+<tr class="even">
+<td align="center">7</td>
+<td align="center">96.3158</td>
+<td align="center">94.8744</td>
+<td align="center">94.3323</td>
+</tr>
+<tr class="odd">
+<td align="center">8</td>
+<td align="center">95.8947</td>
+<td align="center">95.1871</td>
+<td align="center">95.3046</td>
+</tr>
+<tr class="even">
+<td align="center">9</td>
+<td align="center">95.2632</td>
+<td align="center">94.6185</td>
+<td align="center">94.2199</td>
+</tr>
+<tr class="odd">
+<td align="center">10</td>
+<td align="center">94.7368</td>
+<td align="center">93.8334</td>
+<td align="center">94.2786</td>
+</tr>
+<tr class="even">
+<td align="center">[1ex]</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>[table:nonlin]</p>
+<table>
+<caption>Performance of Naive Bayes and Logistic Reg.</caption>
+<tbody>
+<tr class="odd">
+<td align="center">Method</td>
+<td align="center">Train accu.</td>
+<td align="center">Valid accu.</td>
+<td align="center">Test accu.</td>
+</tr>
+<tr class="even">
+<td align="center">[0.5ex] Naive Bayes</td>
+<td align="center">87.05</td>
+<td align="center">83.80</td>
+<td align="center">83.80</td>
+</tr>
+<tr class="odd">
+<td align="center">Logistic reg</td>
+<td align="center">83.89</td>
+<td align="center">81.49</td>
+<td align="center">85.35</td>
+</tr>
+<tr class="even">
+<td align="center">[1ex]</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>[table:nonlin]</p>
+<h2 id="decision-boundary" class="unnumbered">5.5 Decision Boundary</h2>
+<p>As we can see in the figure when the value of K increases, the decision boundary smoothen out. As we can see in case of K = 20, very less red data points lying in the blue region and just one chunk of blue point lying on left bottom of the figure.</p>
+</body>
+</html>
