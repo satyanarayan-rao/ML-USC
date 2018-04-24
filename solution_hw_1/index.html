@@ -96,7 +96,8 @@
         
         <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="first-level active"><a href="#naive-bayes">Naive Bayes</a></li>
+        <li class="first-level active"><a href="#questions-questions-unnumbered">Questions {#questions .unnumbered}</a></li>
+        <li class="first-level "><a href="#naive-bayes">Naive Bayes</a></li>
             <li class="second-level"><a href="#parametric-form-of-naive-bayes-with-gaussian-assumption">Parametric form of Naive Bayes with Gaussian Assumption</a></li>
                 
             <li class="second-level"><a href="#parametric-estimation-for-naive-bayes-with-gaussian-assumption">Parametric estimation for Naive Bayes with Gaussian assumption</a></li>
@@ -133,13 +134,9 @@
 </div></div>
         <div class="col-md-9" role="main">
 
-<ul>
-<li>'Satyanarayan Rao (USC ID: 5235553465)'
-title: 'CSCI 567 Homework #1'
-...</li>
-</ul>
-<p>Collaborated with: Himanshu Joshi Rohit Kondekar Min-Gyong Shin Wonjoon
-Eric Sohn</p>
+<h1 id="questions-questions-unnumbered">Questions {#questions .unnumbered}</h1>
+<p>Questions for the homewor#1 can be found
+<a href="https://github.com/satyausc/ML-USC/blob/master/homeworks/homework%20%231.pdf">here</a>.</p>
 <h1 id="naive-bayes">Naive Bayes</h1>
 <h2 id="parametric-form-of-naive-bayes-with-gaussian-assumption">Parametric form of Naive Bayes with Gaussian Assumption</h2>
 <p>Feature vector <span><span class="MathJax_Preview">X \in R^D</span><script type="math/tex">X \in R^D</script></span> and <span><span class="MathJax_Preview">Y</span><script type="math/tex">Y</script></span> is a binary random vector.</p>
@@ -844,8 +841,11 @@ goes to <span><span class="MathJax_Preview">-\infty</span><script type="math/tex
 classifier <span><span class="MathJax_Preview">||\textbf{w}||^2</span><script type="math/tex">||\textbf{w}||^2</script></span> should tend to infinity for above two
 statements to be valid. Following figure can explain the behavior of
 <span><span class="MathJax_Preview">\sigma (.)</span><script type="math/tex">\sigma (.)</script></span> on different values of w.</p>
-<p>At high value of w (Fig.1 &copy;), we can see the strong confidence of
-taking the decision (no value of <span><span class="MathJax_Preview">\sigma(.)</span><script type="math/tex">\sigma(.)</script></span> lying between 0 and 1).</p>
+<p><img alt="image" src="../logistic_regression_w_equals_1.png" /></p>
+<p><img alt="image" src="../logistic_regression_w_equals_100.png" /></p>
+<p><img alt="image" src="../logistic_regression_w_equals_1000.png" /></p>
+<p>At high value of w (Fig.3), we can see the strong confidence of taking
+the decision (no value of <span><span class="MathJax_Preview">\sigma(.)</span><script type="math/tex">\sigma(.)</script></span> lying between 0 and 1).</p>
 <h2 id="regularized-logistic-regression">Regularized logistic regression</h2>
 <p>Since optimal <span><span class="MathJax_Preview">\textbf{w} \longrightarrow \infty</span><script type="math/tex">\textbf{w} \longrightarrow \infty</script></span>, in order to handle
 the numerical instability the regularization term is being added to the
@@ -927,14 +927,14 @@ plugin that term here. After plugging in the term we get the following :</p>
 <h2 id="unique-solution-of-the-regularized-loss-function">Unique solution of the regularized loss function</h2>
 <p>Since we have already proven that the loss function without
 regularization is convex and the regularization term is also convex
-(beacuse $\lambda &gt; 0 $ and $ ||\textbf{w}||^2 &gt; 0$) so the linear
+(because <span><span class="MathJax_Preview">\lambda &gt; 0</span><script type="math/tex">\lambda > 0</script></span> and <span><span class="MathJax_Preview">||\textbf{w}||^2 &gt; 0</span><script type="math/tex">||\textbf{w}||^2 > 0</script></span>) so the linear
 combination will always be convex. There will be <span><span class="MathJax_Preview">\textbf{w}^*</span><script type="math/tex">\textbf{w}^*</script></span> for
 which</p>
 <div>
 <div class="MathJax_Preview">\begin{aligned}
-\mathcal{L}(\textbf{w}^*) &lt;\mathcal{L}(\textbf{w}) \hspace{10pt} \forall \text{\textbf{w}}\neq \text{\textbf{w}}^*\in \text{\textbf{W}} \end{aligned}</div>
+\mathcal{L}(\textbf{w}^*) &lt;\mathcal{L}(\textbf{w}) \hspace{10pt} \forall \textbf{w}\neq \textbf{w}^*\in \textbf{W}\end{aligned}</div>
 <script type="math/tex; mode=display">\begin{aligned}
-\mathcal{L}(\textbf{w}^*) <\mathcal{L}(\textbf{w}) \hspace{10pt} \forall \text{\textbf{w}}\neq \text{\textbf{w}}^*\in \text{\textbf{W}} \end{aligned}</script>
+\mathcal{L}(\textbf{w}^*) <\mathcal{L}(\textbf{w}) \hspace{10pt} \forall \textbf{w}\neq \textbf{w}^*\in \textbf{W}\end{aligned}</script>
 </div>
 <p>We can start at any <span><span class="MathJax_Preview">\textbf{w}_0</span><script type="math/tex">\textbf{w}_0</script></span> and reach <span><span class="MathJax_Preview">\textbf{w}^*</span><script type="math/tex">\textbf{w}^*</script></span> by using
 gradient descent approach.</p>
