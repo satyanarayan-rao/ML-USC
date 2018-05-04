@@ -499,8 +499,9 @@ W = \left(w_1, w_2, w_3\right)\\
 w_i \in \{w_{i1}, w_{i2}, .,.,., w_{ik}\}\end{aligned}</script>
 </div>
 <p>The weights has been discretized to <span><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span> values. We can just do grid
-search by using following pseudo code. opt (W) = {} for
-<span><span class="MathJax_Preview">w_1 = w_{11}:w_{1k}</span><script type="math/tex">w_1 = w_{11}:w_{1k}</script></span></p>
+search by using following pseudo code.</p>
+<p>opt (W) = {}</p>
+<p>for <span><span class="MathJax_Preview">w_1 = w_{11}:w_{1k}</span><script type="math/tex">w_1 = w_{11}:w_{1k}</script></span></p>
 <p>for <span><span class="MathJax_Preview">w_2 = w_{21}:w_{2k}</span><script type="math/tex">w_2 = w_{21}:w_{2k}</script></span></p>
 <p>for <span><span class="MathJax_Preview">w_3 = w_{31}:w_{3k}</span><script type="math/tex">w_3 = w_{31}:w_{3k}</script></span></p>
 <p>for <span><span class="MathJax_Preview">i = 1:N</span><script type="math/tex">i = 1:N</script></span></p>
@@ -823,15 +824,15 @@ principle. This implies that <span><span class="MathJax_Preview">\textbf{w}^{T}\
 goes to <span><span class="MathJax_Preview">-\infty</span><script type="math/tex">-\infty</script></span> or <span><span class="MathJax_Preview">\infty</span><script type="math/tex">\infty</script></span> irrespective of <span><span class="MathJax_Preview">\textbf{x}</span><script type="math/tex">\textbf{x}</script></span></p>
 <div>
 <div class="MathJax_Preview">\begin{aligned}
-\textbf{w}^{T}\textbf{x} \longrightarrow \infty \hspace{14pt} \text{when \textbf{x} determines Y = 1}\end{aligned}</div>
+\textbf{w}^{T}\textbf{x} \longrightarrow \infty \hspace{14pt} \text{when } \textbf{x } \text{determines } Y = 1\end{aligned}</div>
 <script type="math/tex; mode=display">\begin{aligned}
-\textbf{w}^{T}\textbf{x} \longrightarrow \infty \hspace{14pt} \text{when \textbf{x} determines Y = 1}\end{aligned}</script>
+\textbf{w}^{T}\textbf{x} \longrightarrow \infty \hspace{14pt} \text{when } \textbf{x } \text{determines } Y = 1\end{aligned}</script>
 </div>
 <div>
 <div class="MathJax_Preview">\begin{aligned}
-\textbf{w}^{T}\textbf{x} \longrightarrow -\infty \hspace{14pt} \text{when \textbf{x} determines Y = 0}\end{aligned}</div>
+\textbf{w}^{T}\textbf{x} \longrightarrow -\infty \hspace{14pt} \text{when } \textbf{x } \text{determines } Y = 0\end{aligned}</div>
 <script type="math/tex; mode=display">\begin{aligned}
-\textbf{w}^{T}\textbf{x} \longrightarrow -\infty \hspace{14pt} \text{when \textbf{x} determines Y = 0}\end{aligned}</script>
+\textbf{w}^{T}\textbf{x} \longrightarrow -\infty \hspace{14pt} \text{when } \textbf{x } \text{determines } Y = 0\end{aligned}</script>
 </div>
 <p>both of above statement implies for perfect Logistic regression
 classifier <span><span class="MathJax_Preview">||\textbf{w}||^2</span><script type="math/tex">||\textbf{w}||^2</script></span> should tend to infinity for above two
