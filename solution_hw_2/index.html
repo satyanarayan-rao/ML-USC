@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    <title>Homework 2 - Machine Learning</title>
+
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/cinder.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">Machine Learning</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../solution_hw_1/">Homework 1</a>
+                    </li>
+                
+                
+                
+                    <li class="active">
+                        <a href="./">Homework 2</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li >
+                        <a rel="next" href="../solution_hw_1/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li class="disabled">
+                        <a rel="prev" >
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#linear-regression">Linear Regression</a></li>
+            <li class="second-level"><a href="#regression-with-heterogeneous-noise">Regression with heterogeneous noise</a></li>
+                
+                <li class="third-level"><a href="#11a-log-likelihood-function-of-independent-but-not-identically-distributed-data">1.1.a Log-likelihood function of independent but not identically distributed data</a></li>
+            <li class="second-level"><a href="#11b-maximum-likelihood-derivation-for-boldsymbolbetaboldsymbolbeta">1.1.b Maximum likelihood derivation for \boldsymbol{\beta}\boldsymbol{\beta}</a></li>
+                
+            <li class="second-level"><a href="#smooth-co-efficients">Smooth co-efficients</a></li>
+                
+            <li class="second-level"><a href="#12a">1.2.a</a></li>
+                
+            <li class="second-level"><a href="#12b">1.2.b</a></li>
+                
+            <li class="second-level"><a href="#linearly-constrained-linear-regression">Linearly constrained linear regression</a></li>
+                
+        <li class="first-level "><a href="#online-learning">Online learning</a></li>
+        <li class="first-level "><a href="#kernels">Kernels</a></li>
+            <li class="second-level"><a href="#3a">3.a</a></li>
+                
+            <li class="second-level"><a href="#3b">3.b</a></li>
+                
+            <li class="second-level"><a href="#3c">3.c</a></li>
+                
+        <li class="first-level "><a href="#bias-variance-tradeoff">Bias Variance Tradeoff</a></li>
+        <li class="first-level "><a href="#programming">Programming</a></li>
+            <li class="second-level"><a href="#data-preparation">Data preparation</a></li>
+                
+            <li class="second-level"><a href="#feature-representation">Feature representation</a></li>
+                
+            <li class="second-level"><a href="#1">(1)</a></li>
+                
+            <li class="second-level"><a href="#batch-gradient-descent">Batch Gradient descent</a></li>
+                
+            <li class="second-level"><a href="#2">(2)</a></li>
+                
+            <li class="second-level"><a href="#3a_1">(3)a</a></li>
+                
+            <li class="second-level"><a href="#3b_1">(3)b</a></li>
+                
+            <li class="second-level"><a href="#4a">(4)a</a></li>
+                
+            <li class="second-level"><a href="#4b">(4)b</a></li>
+                
+            <li class="second-level"><a href="#4c">(4)c</a></li>
+                
+            <li class="second-level"><a href="#5">(5)</a></li>
+                
+            <li class="second-level"><a href="#6a">(6)a</a></li>
+                
+            <li class="second-level"><a href="#6b">(6)b</a></li>
+                
+            <li class="second-level"><a href="#6c">(6)c</a></li>
+                
+            <li class="second-level"><a href="#7a">(7)a</a></li>
+                
+            <li class="second-level"><a href="#7b">(7)b</a></li>
+                
+            <li class="second-level"><a href="#8">(8)</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="linear-regression">Linear Regression</h1>
+<h2 id="regression-with-heterogeneous-noise">Regression with heterogeneous noise</h2>
+<h5 id="11a-log-likelihood-function-of-independent-but-not-identically-distributed-data">1.1.a Log-likelihood function of independent but not identically distributed data</h5>
+<p>Here we are given the following:</p>
+<div>
+<div class="MathJax_Preview">\begin{aligned}
+y = \textbf{x}^T\boldsymbol{\beta} + \varepsilon\end{aligned}</div>
+<script type="math/tex; mode=display">\begin{aligned}
+y = \textbf{x}^T\boldsymbol{\beta} + \varepsilon\end{aligned}</script>
+</div>
+<p>And each data point has different variance.</p>
+<div>
+<div class="MathJax_Preview">\begin{aligned}
+\varepsilon_n \sim N(0,\sigma_n^2)\end{aligned}</div>
+<script type="math/tex; mode=display">\begin{aligned}
+\varepsilon_n \sim N(0,\sigma_n^2)\end{aligned}</script>
+</div>
+<p>So here we say the following</p>
+<div>
+<div class="MathJax_Preview">\begin{aligned}
+y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta} \sim N(0,\sigma_i^2)\end{aligned}</div>
+<script type="math/tex; mode=display">\begin{aligned}
+y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta} \sim N(0,\sigma_i^2)\end{aligned}</script>
+</div>
+<p>Writing the log likelihood for the data points</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\ell (\boldsymbol{\beta}) &amp; = \log (P(Y| X,\boldsymbol{\beta}))\\
+              &amp; = \log\left(\prod_{i = 1 }^{N} \frac{1}{\sqrt{2\pi} \sigma_i} \exp\left( \frac{- (y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta} )^2}{2\sigma_i^2}
+              \right)
+              \right)\\
+              &amp; = \sum_{i = 1}^{N}\left(\log\left(\frac{1}{\sqrt{2\pi} \sigma_i}
+              \right) - \frac{(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta} )^2}{2\sigma_i^2}
+              \right)\\
+              &amp; = -\frac{N}{2}\log 2\pi - \sum_{i = 1}^{N}\log(\sigma_i) -  \sum_{i = 1}^{N}\frac{(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta} )^2}{2\sigma_i^2}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\ell (\boldsymbol{\beta}) & = \log (P(Y| X,\boldsymbol{\beta}))\\
+              & = \log\left(\prod_{i = 1 }^{N} \frac{1}{\sqrt{2\pi} \sigma_i} \exp\left( \frac{- (y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta} )^2}{2\sigma_i^2}
+              \right)
+              \right)\\
+              & = \sum_{i = 1}^{N}\left(\log\left(\frac{1}{\sqrt{2\pi} \sigma_i}
+              \right) - \frac{(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta} )^2}{2\sigma_i^2}
+              \right)\\
+              & = -\frac{N}{2}\log 2\pi - \sum_{i = 1}^{N}\log(\sigma_i) -  \sum_{i = 1}^{N}\frac{(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta} )^2}{2\sigma_i^2}
+\end{split}</script>
+</div>
+<h2 id="11b-maximum-likelihood-derivation-for-boldsymbolbetaboldsymbolbeta">1.1.b Maximum likelihood derivation for <span><span class="MathJax_Preview">\boldsymbol{\beta}</span><script type="math/tex">\boldsymbol{\beta}</script></span></h2>
+<p>Differentiating above equation w.r.t. <span><span class="MathJax_Preview">\beta_j</span><script type="math/tex">\beta_j</script></span> we get the following:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\frac{\partial\ell(\boldsymbol{\beta})}{\partial \beta_j} &amp; = -0 - 0 - \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{ij})}{2\sigma_i^2}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\frac{\partial\ell(\boldsymbol{\beta})}{\partial \beta_j} & = -0 - 0 - \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{ij})}{2\sigma_i^2}
+\end{split}</script>
+</div>
+<p>Equating above equation to 0 we get:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\sum_{i = 1}^{N} \frac{(y_i -\textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(x_{ij})}{\sigma_i^2} &amp; = 0\\
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\sum_{i = 1}^{N} \frac{(y_i -\textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(x_{ij})}{\sigma_i^2} & = 0\\
+\end{split}</script>
+</div>
+<p>In matrix form, above equation can be written as:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\begin{bmatrix}
+x_{11} &amp; x_{21} &amp;  . &amp; .&amp; . &amp; x_{n1}
+\end{bmatrix} 
+\begin{bmatrix}
+\frac{y_1 - \textbf{x}_\textbf{1}^T\boldsymbol{\beta} }{\sigma_1^2} \\
+\frac{y_2 - \textbf{x}_\textbf{2}^T\boldsymbol{\beta} }{\sigma_2^2} \\
+.\\
+.\\
+\frac{y_N - \textbf{x}_\textbf{N}^T\boldsymbol{\beta} }{\sigma_N^2} 
+\end{bmatrix}  = 0 
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\begin{bmatrix}
+x_{11} & x_{21} &  . & .& . & x_{n1}
+\end{bmatrix} 
+\begin{bmatrix}
+\frac{y_1 - \textbf{x}_\textbf{1}^T\boldsymbol{\beta} }{\sigma_1^2} \\
+\frac{y_2 - \textbf{x}_\textbf{2}^T\boldsymbol{\beta} }{\sigma_2^2} \\
+.\\
+.\\
+\frac{y_N - \textbf{x}_\textbf{N}^T\boldsymbol{\beta} }{\sigma_N^2} 
+\end{bmatrix}  = 0 
+\end{split}</script>
+</div>
+<p>Similarly for other <span><span class="MathJax_Preview">\beta</span><script type="math/tex">\beta</script></span>’s we get the same format. Putting all of
+them in one matrix we will get the following.</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\begin{bmatrix}
+x_{11} &amp; x_{21} &amp;  . &amp; .&amp; . &amp; x_{N1}\\
+x_{12} &amp; x_{22} &amp;  . &amp; .&amp; . &amp; x_{N2}\\
+. &amp; . &amp; . &amp; . &amp; . &amp; . &amp; . \\
+. &amp; . &amp; . &amp; . &amp; . &amp; . &amp; . \\
+x_{1p} &amp; x_{22} &amp;  . &amp; .&amp; . &amp; x_{Np}
+\end{bmatrix} 
+\begin{bmatrix}
+\frac{y_1 - \textbf{x}_\textbf{1}^T\boldsymbol{\beta} }{\sigma_1^2} \\
+\frac{y_2 - \textbf{x}_\textbf{2}^T\boldsymbol{\beta} }{\sigma_2^2} \\
+.\\
+.\\
+\frac{y_N - \textbf{x}_\textbf{N}^T\boldsymbol{\beta} }{\sigma_N^2} 
+\end{bmatrix}  = 
+\begin{bmatrix}
+0\\
+0\\
+.\\
+.\\
+0 
+\end{bmatrix}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\begin{bmatrix}
+x_{11} & x_{21} &  . & .& . & x_{N1}\\
+x_{12} & x_{22} &  . & .& . & x_{N2}\\
+. & . & . & . & . & . & . \\
+. & . & . & . & . & . & . \\
+x_{1p} & x_{22} &  . & .& . & x_{Np}
+\end{bmatrix} 
+\begin{bmatrix}
+\frac{y_1 - \textbf{x}_\textbf{1}^T\boldsymbol{\beta} }{\sigma_1^2} \\
+\frac{y_2 - \textbf{x}_\textbf{2}^T\boldsymbol{\beta} }{\sigma_2^2} \\
+.\\
+.\\
+\frac{y_N - \textbf{x}_\textbf{N}^T\boldsymbol{\beta} }{\sigma_N^2} 
+\end{bmatrix}  = 
+\begin{bmatrix}
+0\\
+0\\
+.\\
+.\\
+0 
+\end{bmatrix}
+\end{split}</script>
+</div>
+<p>Denoting the left <span><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span><strong>x</strong><span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span> matrix as <span><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>. Putting Y term on RHS we
+get the following:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+A \begin{bmatrix}
+\frac{\textbf{x}_\textbf{1}^T\boldsymbol{\beta} }{\sigma_1^2} \\
+\frac{\textbf{x}_\textbf{2}^T\boldsymbol{\beta} }{\sigma_2^2} \\
+.\\
+.\\
+\frac{\textbf{x}_\textbf{N}^T\boldsymbol{\beta} }{\sigma_N^2} 
+\end{bmatrix}  = A \begin{bmatrix}
+\frac{y_1}{\sigma_1^2}\\
+\frac{y_2}{\sigma_2^2}\\
+.\\
+.\\
+\frac{y_N}{\sigma_N^2}
+\end{bmatrix}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+A \begin{bmatrix}
+\frac{\textbf{x}_\textbf{1}^T\boldsymbol{\beta} }{\sigma_1^2} \\
+\frac{\textbf{x}_\textbf{2}^T\boldsymbol{\beta} }{\sigma_2^2} \\
+.\\
+.\\
+\frac{\textbf{x}_\textbf{N}^T\boldsymbol{\beta} }{\sigma_N^2} 
+\end{bmatrix}  = A \begin{bmatrix}
+\frac{y_1}{\sigma_1^2}\\
+\frac{y_2}{\sigma_2^2}\\
+.\\
+.\\
+\frac{y_N}{\sigma_N^2}
+\end{bmatrix}
+\end{split}</script>
+</div>
+<p>Above equation can again be decomposed into simpler form by expanding
+every row entry of matrix column matrix in L.H.S.</p>
+<div>
+<div class="MathJax_Preview">\begin{bmatrix}
+\frac{\textbf{x}_\textbf{1}^T\boldsymbol{\beta} }{\sigma_1^2} \\
+\frac{\textbf{x}_\textbf{2}^T\boldsymbol{\beta} }{\sigma_2^2} \\
+.\\
+.\\
+\frac{\textbf{x}_\textbf{N}^T\boldsymbol{\beta} }{\sigma_N^2} 
+\end{bmatrix} = \begin{bmatrix}
+\frac{x_{11}}{\sigma_1^2} &amp; \frac{x_{12}}{\sigma_1^2} &amp; . &amp; . &amp; \frac{x_{1p}}{\sigma_1^2}\\ 
+\frac{x_{21}}{\sigma_2^2} &amp; \frac{x_{22}}{\sigma_2^2} &amp; . &amp; . &amp; \frac{x_{2p}}{\sigma_2^2}\\ 
+. &amp; . &amp; . &amp; . &amp; . \\
+\frac{x_{N1}}{\sigma_N^2} &amp; \frac{x_{N2}}{\sigma_N^2} &amp; . &amp; . &amp; \frac{x_{Np}}{\sigma_N^2}\\   
+\end{bmatrix} \begin{bmatrix}
+\beta_1\\
+\beta_2\\
+.\\
+.\\
+\beta_p 
+\end{bmatrix}</div>
+<script type="math/tex; mode=display">\begin{bmatrix}
+\frac{\textbf{x}_\textbf{1}^T\boldsymbol{\beta} }{\sigma_1^2} \\
+\frac{\textbf{x}_\textbf{2}^T\boldsymbol{\beta} }{\sigma_2^2} \\
+.\\
+.\\
+\frac{\textbf{x}_\textbf{N}^T\boldsymbol{\beta} }{\sigma_N^2} 
+\end{bmatrix} = \begin{bmatrix}
+\frac{x_{11}}{\sigma_1^2} & \frac{x_{12}}{\sigma_1^2} & . & . & \frac{x_{1p}}{\sigma_1^2}\\ 
+\frac{x_{21}}{\sigma_2^2} & \frac{x_{22}}{\sigma_2^2} & . & . & \frac{x_{2p}}{\sigma_2^2}\\ 
+. & . & . & . & . \\
+\frac{x_{N1}}{\sigma_N^2} & \frac{x_{N2}}{\sigma_N^2} & . & . & \frac{x_{Np}}{\sigma_N^2}\\   
+\end{bmatrix} \begin{bmatrix}
+\beta_1\\
+\beta_2\\
+.\\
+.\\
+\beta_p 
+\end{bmatrix}</script>
+</div>
+<p>Assuming <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> to be the <span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span><strong>x</strong><span><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span> of R.H.S of above equation. Now we
+can write eq. (1.3) as</p>
+<div>
+<div class="MathJax_Preview">\boldsymbol{AB}\boldsymbol{\beta} =\boldsymbol{AY_{\sigma}}</div>
+<script type="math/tex; mode=display">\boldsymbol{AB}\boldsymbol{\beta} =\boldsymbol{AY_{\sigma}}</script>
+</div>
+<p><span><span class="MathJax_Preview">\boldsymbol{AB}</span><script type="math/tex">\boldsymbol{AB}</script></span> will be a <span><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span><strong>x</strong><span><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span> matrix, and if it is invertible
+then we can write the solution for <span><span class="MathJax_Preview">\boldsymbol{\beta}</span><script type="math/tex">\boldsymbol{\beta}</script></span> as following:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\boldsymbol{\beta} = \boldsymbol{(AB)^{-1}}\boldsymbol{AY_{\sigma}}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\boldsymbol{\beta} = \boldsymbol{(AB)^{-1}}\boldsymbol{AY_{\sigma}}
+\end{split}</script>
+</div>
+<h2 id="smooth-co-efficients">Smooth co-efficients</h2>
+<h2 id="12a">1.2.a</h2>
+<p>To apply natural ordering we have to add extra regularization term in
+the residual square of sum term. Without natural ordering
+<span><span class="MathJax_Preview">\boldsymbol{RSS(\beta)}</span><script type="math/tex">\boldsymbol{RSS(\beta)}</script></span> looks like following</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\boldsymbol{RSS(\beta)} = \sum_{i =1 }^{n} \frac{(y_i - \boldsymbol{x_i^T\beta})}{\sigma^2} + \frac{1}{2}\lambda||\boldsymbol{\beta}||^2
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\boldsymbol{RSS(\beta)} = \sum_{i =1 }^{n} \frac{(y_i - \boldsymbol{x_i^T\beta})}{\sigma^2} + \frac{1}{2}\lambda||\boldsymbol{\beta}||^2
+\end{split}</script>
+</div>
+<p>Adding additional constrain of natural ordering</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\boldsymbol{RSS(\beta)} = \sum_{i =1 }^{n} \frac{(y_i - \boldsymbol{x_i^T\beta})}{\sigma^2} + \frac{1}{2}\lambda||\boldsymbol{\beta}||^2 + \frac{1}{2}\gamma\sum_{i=1}^{p-1} \left( \beta_i - \beta_{i+1}
+\right)^2
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\boldsymbol{RSS(\beta)} = \sum_{i =1 }^{n} \frac{(y_i - \boldsymbol{x_i^T\beta})}{\sigma^2} + \frac{1}{2}\lambda||\boldsymbol{\beta}||^2 + \frac{1}{2}\gamma\sum_{i=1}^{p-1} \left( \beta_i - \beta_{i+1}
+\right)^2
+\end{split}</script>
+</div>
+<h2 id="12b">1.2.b</h2>
+<p>Taking the first derivative and equating it to zero.Note: The derivative
+w.r.t <span><span class="MathJax_Preview">\beta_1</span><script type="math/tex">\beta_1</script></span> and <span><span class="MathJax_Preview">\beta_p</span><script type="math/tex">\beta_p</script></span> will be different from the rest <span><span class="MathJax_Preview">\beta's</span><script type="math/tex">\beta's</script></span></p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\frac{\partial \boldsymbol{RSS(\beta)} }{\partial \beta_1} &amp; = \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{i1})}{2\sigma^2} + \lambda \beta_1 + \gamma\left(\beta_1 - \beta_2
+\right) = 0\\
+\frac{\partial \boldsymbol{RSS(\beta)} }{\partial \beta_2} &amp; = \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{i2})}{2\sigma^2} + \lambda \beta_2 - \gamma\left(\beta_1 + \beta_3
+\right) = 0 \\
+\frac{\partial \boldsymbol{RSS(\beta)} }{\partial \beta_3} &amp; = \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{i3})}{2\sigma^2} + \lambda \beta_3 - \gamma\left(\beta_2 + \beta_4
+\right) = 0 \\
+... \\
+...\\ 
+\frac{\partial \boldsymbol{RSS(\beta)} }{\partial \beta_p} &amp; = \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{ip})}{2\sigma^2} + \lambda \beta_p + \gamma\left(\beta_p + \beta_{p-1}
+\right) = 0 
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\frac{\partial \boldsymbol{RSS(\beta)} }{\partial \beta_1} & = \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{i1})}{2\sigma^2} + \lambda \beta_1 + \gamma\left(\beta_1 - \beta_2
+\right) = 0\\
+\frac{\partial \boldsymbol{RSS(\beta)} }{\partial \beta_2} & = \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{i2})}{2\sigma^2} + \lambda \beta_2 - \gamma\left(\beta_1 + \beta_3
+\right) = 0 \\
+\frac{\partial \boldsymbol{RSS(\beta)} }{\partial \beta_3} & = \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{i3})}{2\sigma^2} + \lambda \beta_3 - \gamma\left(\beta_2 + \beta_4
+\right) = 0 \\
+... \\
+...\\ 
+\frac{\partial \boldsymbol{RSS(\beta)} }{\partial \beta_p} & = \sum_{i = 1}^{N}\frac{2*(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta})*(-x_{ip})}{2\sigma^2} + \lambda \beta_p + \gamma\left(\beta_p + \beta_{p-1}
+\right) = 0 
+\end{split}</script>
+</div>
+<p>Writing above system of linear equation in matrix form.</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+-A \left(Y - A^T\boldsymbol{\beta}\right) + \lambda\boldsymbol{\beta} - \gamma\begin{bmatrix}
+\beta_2 - \beta_1\\
+\beta_1 + \beta_3\\
+.\\
+.\\
+\beta_{p-1} - \beta_p
+\end{bmatrix} &amp;  = \begin{bmatrix}
+0\\
+0\\
+.\\
+.\\
+0
+\end{bmatrix}\\
+-A \left(Y - A^T\boldsymbol{\beta}\right) + \lambda\boldsymbol{\beta} - \gamma \begin{bmatrix}
+-1 &amp; 1 &amp; 0 &amp; 0 &amp; . &amp; . &amp; 0 \\
+1 &amp; 0 &amp; 1 &amp; 0 &amp; . &amp; . &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 1 &amp; . &amp; . &amp; 0 \\
+. &amp; . &amp; . &amp; . &amp; . &amp; .&amp; . \\
+. &amp; . &amp; . &amp; . &amp; . &amp; .&amp; . \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; . &amp; 1 &amp; -1 \\
+\end{bmatrix}\boldsymbol{\beta} = \boldsymbol{0}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+-A \left(Y - A^T\boldsymbol{\beta}\right) + \lambda\boldsymbol{\beta} - \gamma\begin{bmatrix}
+\beta_2 - \beta_1\\
+\beta_1 + \beta_3\\
+.\\
+.\\
+\beta_{p-1} - \beta_p
+\end{bmatrix} &  = \begin{bmatrix}
+0\\
+0\\
+.\\
+.\\
+0
+\end{bmatrix}\\
+-A \left(Y - A^T\boldsymbol{\beta}\right) + \lambda\boldsymbol{\beta} - \gamma \begin{bmatrix}
+-1 & 1 & 0 & 0 & . & . & 0 \\
+1 & 0 & 1 & 0 & . & . & 0 \\
+0 & 1 & 0 & 1 & . & . & 0 \\
+. & . & . & . & . & .& . \\
+. & . & . & . & . & .& . \\
+0 & 0 & 0 & 0 & . & 1 & -1 \\
+\end{bmatrix}\boldsymbol{\beta} = \boldsymbol{0}
+\end{split}</script>
+</div>
+<p>Simplifying above equation will lead to the following:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+AA^T\boldsymbol{\beta} + \lambda\boldsymbol{\beta} - \gamma K \boldsymbol{\beta} &amp; = AY\\
+\left( AA^T + \lambda\boldsymbol{I} - \gamma K 
+\right)\boldsymbol{\beta} &amp; = AY \\
+\implies \boldsymbol{\beta} &amp; = \left( AA^T + \lambda\boldsymbol{I} - \gamma K 
+\right)^ {-1} AY 
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+AA^T\boldsymbol{\beta} + \lambda\boldsymbol{\beta} - \gamma K \boldsymbol{\beta} & = AY\\
+\left( AA^T + \lambda\boldsymbol{I} - \gamma K 
+\right)\boldsymbol{\beta} & = AY \\
+\implies \boldsymbol{\beta} & = \left( AA^T + \lambda\boldsymbol{I} - \gamma K 
+\right)^ {-1} AY 
+\end{split}</script>
+</div>
+<h2 id="linearly-constrained-linear-regression">Linearly constrained linear regression</h2>
+<p>Here we are given the following:</p>
+<div>
+<div class="MathJax_Preview">y = \boldsymbol{x^T\beta} + \varepsilon</div>
+<script type="math/tex; mode=display">y = \boldsymbol{x^T\beta} + \varepsilon</script>
+</div>
+<p>and the parameters have additional linear constrain as:</p>
+<div>
+<div class="MathJax_Preview">A\boldsymbol{\beta} = \boldsymbol{b}</div>
+<script type="math/tex; mode=display">A\boldsymbol{\beta} = \boldsymbol{b}</script>
+</div>
+<p>The above equation has non-empty solution.Writing the log likelihood
+equation by referring (1.1) with new symbol of
+<span><span class="MathJax_Preview">\boldsymbol{\beta} =\boldsymbol{\beta}^\star</span><script type="math/tex">\boldsymbol{\beta} =\boldsymbol{\beta}^\star</script></span></p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+ \ell (\boldsymbol{\beta}) &amp; =  -\frac{N}{2}\log 2\pi - N\log(\sigma) -  \sum_{i = 1}^{N}\frac{(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta^\star} )^2}{2\sigma^2}\\
+ &amp; = -\frac{N}{2}\log 2\pi - \frac{N}{2}\log(\sigma^2) -  \sum_{i = 1}^{N}\frac{(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta^\star} )^2}{2\sigma^2}\\
+ &amp; =  -\frac{N}{2}\log 2\pi - \frac{N}{2}\log(\sigma^2) - \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{2\sigma^2}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+ \ell (\boldsymbol{\beta}) & =  -\frac{N}{2}\log 2\pi - N\log(\sigma) -  \sum_{i = 1}^{N}\frac{(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta^\star} )^2}{2\sigma^2}\\
+ & = -\frac{N}{2}\log 2\pi - \frac{N}{2}\log(\sigma^2) -  \sum_{i = 1}^{N}\frac{(y_i - \textbf{x}_\textbf{i}^T\boldsymbol{\beta^\star} )^2}{2\sigma^2}\\
+ & =  -\frac{N}{2}\log 2\pi - \frac{N}{2}\log(\sigma^2) - \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{2\sigma^2}
+\end{split}</script>
+</div>
+<p>Where</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+Y = \begin{bmatrix}
+y_1 &amp; y_2 &amp; . &amp;. &amp;. &amp; y_N
+\end{bmatrix}^T
+\boldsymbol{X} = \begin{bmatrix}
+x_{11} &amp; x_{12} &amp; x_{13} &amp; . &amp; . &amp; . &amp; x_{1P}\\
+x_{21} &amp; x_{22} &amp; x_{23} &amp; . &amp; . &amp; . &amp; x_{2P}\\
+. &amp; . &amp; . &amp; . &amp; . &amp; . &amp; .\\
+. &amp; . &amp; . &amp; . &amp; . &amp; . &amp; .\\
+x_{N1} &amp; x_{N2} &amp; x_{N3} &amp; . &amp; . &amp; . &amp; x_{NP}
+\end{bmatrix}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+Y = \begin{bmatrix}
+y_1 & y_2 & . &. &. & y_N
+\end{bmatrix}^T
+\boldsymbol{X} = \begin{bmatrix}
+x_{11} & x_{12} & x_{13} & . & . & . & x_{1P}\\
+x_{21} & x_{22} & x_{23} & . & . & . & x_{2P}\\
+. & . & . & . & . & . & .\\
+. & . & . & . & . & . & .\\
+x_{N1} & x_{N2} & x_{N3} & . & . & . & x_{NP}
+\end{bmatrix}
+\end{split}</script>
+</div>
+<p>The idea here is to use Lagrangian multiplier in order to address the
+linear constrain. Here we can see that the variance does not have any
+constraint. We can get estimate of variance, and then plug that into
+likelihood, thereafter we can apply Lagrangian multiplier.First getting
+the estimate for variance:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\frac{\partial\ell(\boldsymbol{\beta})}{\partial\sigma^2} &amp; = -\frac{N}{2\sigma^2} -  \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{2}*\left(\frac{-1}{\sigma^4}
+\right)\\
+&amp; = -\frac{N}{2\sigma^2} + \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{2\sigma^4}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\frac{\partial\ell(\boldsymbol{\beta})}{\partial\sigma^2} & = -\frac{N}{2\sigma^2} -  \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{2}*\left(\frac{-1}{\sigma^4}
+\right)\\
+& = -\frac{N}{2\sigma^2} + \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{2\sigma^4}
+\end{split}</script>
+</div>
+<p>equating above equation to zero will give us the estimate of <span><span class="MathJax_Preview">\sigma^2</span><script type="math/tex">\sigma^2</script></span>
+as a function of constrained <span><span class="MathJax_Preview">\boldsymbol{\beta^\star}</span><script type="math/tex">\boldsymbol{\beta^\star}</script></span></p>
+<div>
+<div class="MathJax_Preview">\sigma ^2 =  \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{N}</div>
+<script type="math/tex; mode=display">\sigma ^2 =  \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{N}</script>
+</div>
+<p>Putting the value of <span><span class="MathJax_Preview">\sigma^2</span><script type="math/tex">\sigma^2</script></span> in eq. (1.4)</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+ \ell (\boldsymbol{\beta}) &amp; = -\frac{N}{2}\log 2\pi - \frac{N}{2}\log\left( \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{N}\right) - \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{2 \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{N}} \\
+ &amp; = -\frac{N}{2}\log 2\pi - \frac{N}{2}\log\left( \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{N}\right) - \frac{N}{2}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+ \ell (\boldsymbol{\beta}) & = -\frac{N}{2}\log 2\pi - \frac{N}{2}\log\left( \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{N}\right) - \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{2 \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{N}} \\
+ & = -\frac{N}{2}\log 2\pi - \frac{N}{2}\log\left( \frac{(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})}{N}\right) - \frac{N}{2}
+\end{split}</script>
+</div>
+<p>Now we have to maximize with the linear constrain on parameter. In other
+terms we just have to minimize the term inside log in above equation. We
+have to do the following. Minimize</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+&amp;(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})\\
+&amp; A\boldsymbol{\beta^\star} = \boldsymbol{b}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+&(Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star})\\
+& A\boldsymbol{\beta^\star} = \boldsymbol{b}
+\end{split}</script>
+</div>
+<p>Writing the Lagrangian multiplier for above problem</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+J &amp; = (Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star}) + \lambda ( A\boldsymbol{\beta^\star} -\boldsymbol{b} )\\
+  &amp; = Y^TY - Y^T\boldsymbol{X\beta^\star} - \boldsymbol{\beta^{\star T} X^T}Y + \boldsymbol{\beta^{\star T} X^TX\beta^\star} + \lambda ( A\boldsymbol{\beta^\star} -\boldsymbol{b} )\\
+  &amp; = Y^TY - 2Y^T\boldsymbol{X\beta^\star}  + \boldsymbol{\beta^{\star T} X^TX\beta^\star} +\lambda ( A\boldsymbol{\beta^\star} -\boldsymbol{b} )\vspace{5pt}\\
+  &amp; \hspace{20pt}\text{because both terms are essentially the same}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+J & = (Y - \boldsymbol{X\beta^\star})^T(Y - \boldsymbol{X\beta^\star}) + \lambda ( A\boldsymbol{\beta^\star} -\boldsymbol{b} )\\
+  & = Y^TY - Y^T\boldsymbol{X\beta^\star} - \boldsymbol{\beta^{\star T} X^T}Y + \boldsymbol{\beta^{\star T} X^TX\beta^\star} + \lambda ( A\boldsymbol{\beta^\star} -\boldsymbol{b} )\\
+  & = Y^TY - 2Y^T\boldsymbol{X\beta^\star}  + \boldsymbol{\beta^{\star T} X^TX\beta^\star} +\lambda ( A\boldsymbol{\beta^\star} -\boldsymbol{b} )\vspace{5pt}\\
+  & \hspace{20pt}\text{because both terms are essentially the same}
+\end{split}</script>
+</div>
+<p>Differentiating w.r.t to <span><span class="MathJax_Preview">\boldsymbol{\beta^\star}</span><script type="math/tex">\boldsymbol{\beta^\star}</script></span></p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\frac{\partial J}{\partial \beta^\star}  &amp; = -2Y^T\boldsymbol{X} + 2\boldsymbol{\beta^{\star T}X^TX} + \lambda A  = 0 \\
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\frac{\partial J}{\partial \beta^\star}  & = -2Y^T\boldsymbol{X} + 2\boldsymbol{\beta^{\star T}X^TX} + \lambda A  = 0 \\
+\end{split}</script>
+</div>
+<p>To make it easier for calculation, taking transpose on both side.</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+-2\boldsymbol{X^T}Y + 2\boldsymbol{X^TX\beta^\star} + \lambda A^T &amp; = 0 \\
+\lambda A^T &amp; = 2\left(\boldsymbol{X^T}Y - \boldsymbol{X^TX\beta^\star} \right)
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+-2\boldsymbol{X^T}Y + 2\boldsymbol{X^TX\beta^\star} + \lambda A^T & = 0 \\
+\lambda A^T & = 2\left(\boldsymbol{X^T}Y - \boldsymbol{X^TX\beta^\star} \right)
+\end{split}</script>
+</div>
+<p>Multiplying with <span><span class="MathJax_Preview">A\left(\boldsymbol{X^TX}\right)^{-1}</span><script type="math/tex">A\left(\boldsymbol{X^TX}\right)^{-1}</script></span></p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\lambda A\left(\boldsymbol{X^TX}\right)^{-1} A^T &amp; = 2 \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - A\boldsymbol{\beta^\star}
+\right)\\
+&amp; = 2 \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \boldsymbol{b}
+\right)\\
+\implies
+\lambda &amp; = 2 \left(  A\left(\boldsymbol{X^TX}\right)^{-1} A^T
+\right)^ {-1} \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \boldsymbol{b}
+\right) 
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\lambda A\left(\boldsymbol{X^TX}\right)^{-1} A^T & = 2 \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - A\boldsymbol{\beta^\star}
+\right)\\
+& = 2 \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \boldsymbol{b}
+\right)\\
+\implies
+\lambda & = 2 \left(  A\left(\boldsymbol{X^TX}\right)^{-1} A^T
+\right)^ {-1} \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \boldsymbol{b}
+\right) 
+\end{split}</script>
+</div>
+<p>simplifying first term of eq. (1.6) for <span><span class="MathJax_Preview">\boldsymbol{\beta^\star}</span><script type="math/tex">\boldsymbol{\beta^\star}</script></span></p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+2\boldsymbol{X^TX\beta^\star} &amp; = 2\boldsymbol{X^T}Y - \lambda A^T\\
+&amp; = 2\boldsymbol{X^T}Y  - 2 \left(  A\left(\boldsymbol{X^TX}\right)^{-1} A^T
+\right)^ {-1} \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \boldsymbol{b}
+\right)\\
+\implies
+\boldsymbol{\beta^\star} &amp; = \left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \left(\boldsymbol{X^TX}\right)^{-1} \left(  A\left(\boldsymbol{X^TX}\right)^{-1} A^T
+\right)^ {-1} \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \boldsymbol{b}
+\right)
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+2\boldsymbol{X^TX\beta^\star} & = 2\boldsymbol{X^T}Y - \lambda A^T\\
+& = 2\boldsymbol{X^T}Y  - 2 \left(  A\left(\boldsymbol{X^TX}\right)^{-1} A^T
+\right)^ {-1} \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \boldsymbol{b}
+\right)\\
+\implies
+\boldsymbol{\beta^\star} & = \left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \left(\boldsymbol{X^TX}\right)^{-1} \left(  A\left(\boldsymbol{X^TX}\right)^{-1} A^T
+\right)^ {-1} \left( A\left(\boldsymbol{X^TX}\right)^{-1}\boldsymbol{X^T}Y - \boldsymbol{b}
+\right)
+\end{split}</script>
+</div>
+<h1 id="online-learning">Online learning</h1>
+<p>Here the objective function is to minimize the L2 norm of the difference
+of the update. For perceptron to classify the current input following
+condition must satisfy:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+y_n\boldsymbol{w_{i+1}}^T\boldsymbol{x_n} &gt; 0
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+y_n\boldsymbol{w_{i+1}}^T\boldsymbol{x_n} > 0
+\end{split}</script>
+</div>
+<p>we have to minimize the following with above mentioned constraint.</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+1/2*||\boldsymbol{w_{i+1}} - \boldsymbol{w_i}||_2^2
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+1/2*||\boldsymbol{w_{i+1}} - \boldsymbol{w_i}||_2^2
+\end{split}</script>
+</div>
+<p>Minimizing L2 sqaured norm is as good as minimizing L2 norm. Writing
+expression in Lagrangian format</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\boldsymbol{L} = 1/2*||\boldsymbol{w_{i+1}} - \boldsymbol{w_i}||_2^2 + \lambda * (y_n\boldsymbol{w_{i+1}}^T\boldsymbol{x_n}  )
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\boldsymbol{L} = 1/2*||\boldsymbol{w_{i+1}} - \boldsymbol{w_i}||_2^2 + \lambda * (y_n\boldsymbol{w_{i+1}}^T\boldsymbol{x_n}  )
+\end{split}</script>
+</div>
+<p>differentiating w.r.t. to <span><span class="MathJax_Preview">\boldsymbol{w_{i+1}}</span><script type="math/tex">\boldsymbol{w_{i+1}}</script></span> and equating it to
+zero.</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\frac{\partial \boldsymbol{L}}{\partial \boldsymbol{w_{i+1}}} &amp; = 1/2 * \left(2*\boldsymbol{w_{i+1}} - 2*\boldsymbol{w_i} + *\lambda*y_n * \boldsymbol{x_n}
+\right) = 0 \\
+\boldsymbol{w_{i+1}} &amp; = \boldsymbol{w_i} -  \frac{\lambda*y_n*\boldsymbol{x_n}}{2}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\frac{\partial \boldsymbol{L}}{\partial \boldsymbol{w_{i+1}}} & = 1/2 * \left(2*\boldsymbol{w_{i+1}} - 2*\boldsymbol{w_i} + *\lambda*y_n * \boldsymbol{x_n}
+\right) = 0 \\
+\boldsymbol{w_{i+1}} & = \boldsymbol{w_i} -  \frac{\lambda*y_n*\boldsymbol{x_n}}{2}
+\end{split}</script>
+</div>
+<p>Differential <span><span class="MathJax_Preview">L</span><script type="math/tex">L</script></span> w.r.t <span><span class="MathJax_Preview">\lambda</span><script type="math/tex">\lambda</script></span> leads to the following</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\frac{\partial \boldsymbol{L}}{\partial \lambda} &amp; = y_n\boldsymbol{w_{i+1}}^T \boldsymbol{x_n}  = 0 \\
+\implies y_n\left( \boldsymbol{w_i}^T -  \frac{\lambda*y_n*\boldsymbol{x_n}^T}{2}
+\right) * \boldsymbol{x_n} &amp; = 0 \\
+\implies \lambda = \frac{2*\boldsymbol{w_i}^T\boldsymbol{x_n}}{y_n||\boldsymbol{x_n}||^2}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\frac{\partial \boldsymbol{L}}{\partial \lambda} & = y_n\boldsymbol{w_{i+1}}^T \boldsymbol{x_n}  = 0 \\
+\implies y_n\left( \boldsymbol{w_i}^T -  \frac{\lambda*y_n*\boldsymbol{x_n}^T}{2}
+\right) * \boldsymbol{x_n} & = 0 \\
+\implies \lambda = \frac{2*\boldsymbol{w_i}^T\boldsymbol{x_n}}{y_n||\boldsymbol{x_n}||^2}
+\end{split}</script>
+</div>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\boldsymbol{w_{i+1}} = \boldsymbol{w_i} - \left(\frac{\boldsymbol{w_i}^T\boldsymbol{x_n}}{y_n||\boldsymbol{x_n}||^2}
+\right)* y_n*\boldsymbol{x_n}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\boldsymbol{w_{i+1}} = \boldsymbol{w_i} - \left(\frac{\boldsymbol{w_i}^T\boldsymbol{x_n}}{y_n||\boldsymbol{x_n}||^2}
+\right)* y_n*\boldsymbol{x_n}
+\end{split}</script>
+</div>
+<h1 id="kernels">Kernels</h1>
+<h2 id="3a">3.a</h2>
+<div>
+<div class="MathJax_Preview">\begin{aligned}
+K_3 &amp; =  a_1K_1 + a_2K_2\\
+&amp;  a_1\geq 0 , a_2 \geq 0\end{aligned}</div>
+<script type="math/tex; mode=display">\begin{aligned}
+K_3 & =  a_1K_1 + a_2K_2\\
+&  a_1\geq 0 , a_2 \geq 0\end{aligned}</script>
+</div>
+<p>Since <span><span class="MathJax_Preview">K_1</span><script type="math/tex">K_1</script></span> and <span><span class="MathJax_Preview">K_2</span><script type="math/tex">K_2</script></span> are positive semidefinite matrix. So for any
+vector<span><span class="MathJax_Preview">X</span><script type="math/tex">X</script></span>, we h ave the following inequality</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+X^TK_1X \geq 0,\space
+X^TK_2X \geq 0 
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+X^TK_1X \geq 0,\space
+X^TK_2X \geq 0 
+\end{split}</script>
+</div>
+<p>Taking any vector X and evaluating <span><span class="MathJax_Preview">X^TK_3X</span><script type="math/tex">X^TK_3X</script></span></p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+X^TK_3X &amp; = X^T (a_1K_1 + a_2K_2)X\\
+&amp; = X^Ta_1K_1X + X^Ta_aK_2X\\
+&amp; = a_1X^TK_1X + a_2X^TK_2X \\
+&amp;\geq 0 
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+X^TK_3X & = X^T (a_1K_1 + a_2K_2)X\\
+& = X^Ta_1K_1X + X^Ta_aK_2X\\
+& = a_1X^TK_1X + a_2X^TK_2X \\
+&\geq 0 
+\end{split}</script>
+</div>
+<h2 id="3b">3.b</h2>
+<p><span><span class="MathJax_Preview">K_4</span><script type="math/tex">K_4</script></span> has been defined by kernel function <span><span class="MathJax_Preview">k_4(x_1,x_2) = f(x_1)f(x_2)</span><script type="math/tex">k_4(x_1,x_2) = f(x_1)f(x_2)</script></span>
+, the matrix representation will look like following:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+K_4 &amp; = \begin{bmatrix}
+k_4(x_1,x_1) &amp; k_4(x_1,x_2) &amp;  . &amp; .&amp; . &amp; k_4(x_1, x_N)\\
+k_4(x_2,x_1) &amp; k_4(x_2,x_2) &amp;  . &amp; .&amp; . &amp; k_4(x_2, x_N)\\
+. &amp; . &amp; . &amp; . &amp; . &amp; . \\
+. &amp; . &amp; . &amp; . &amp; . &amp; .  \\
+k_4(x_N,x_1) &amp; k_4(x_N,x_2) &amp;  . &amp; .&amp; . &amp; k_4(x_N, x_N)
+\end{bmatrix}\\
+&amp; = \begin{bmatrix}
+f(x_1)f(x_1) &amp; f(x_1)f(x_2) &amp;  . &amp; .&amp; . &amp; f(x_1)f(x_N)\\
+k_4(x_2,x_1) &amp; k_4(x_2,x_2) &amp;  . &amp; .&amp; . &amp; k_4(x_2, x_N)\\
+. &amp; . &amp; . &amp; . &amp; . &amp; .  \\
+. &amp; . &amp; . &amp; . &amp; . &amp; .  \\
+k_4(x_N,x_1) &amp; k_4(x_N,x_2) &amp;  . &amp; .&amp; . &amp; k_4(x_N, x_N)
+\end{bmatrix}\\
+&amp; = \begin{bmatrix}
+f(x_1)\\
+f(x_2)\\
+.  \\
+.  \\
+f(x_N)
+\end{bmatrix} \begin{bmatrix}
+f(x_1) &amp; f(x_2) &amp; . &amp; . &amp; f(x_N)
+\end{bmatrix}\\
+&amp; = \boldsymbol{FF^T}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+K_4 & = \begin{bmatrix}
+k_4(x_1,x_1) & k_4(x_1,x_2) &  . & .& . & k_4(x_1, x_N)\\
+k_4(x_2,x_1) & k_4(x_2,x_2) &  . & .& . & k_4(x_2, x_N)\\
+. & . & . & . & . & . \\
+. & . & . & . & . & .  \\
+k_4(x_N,x_1) & k_4(x_N,x_2) &  . & .& . & k_4(x_N, x_N)
+\end{bmatrix}\\
+& = \begin{bmatrix}
+f(x_1)f(x_1) & f(x_1)f(x_2) &  . & .& . & f(x_1)f(x_N)\\
+k_4(x_2,x_1) & k_4(x_2,x_2) &  . & .& . & k_4(x_2, x_N)\\
+. & . & . & . & . & .  \\
+. & . & . & . & . & .  \\
+k_4(x_N,x_1) & k_4(x_N,x_2) &  . & .& . & k_4(x_N, x_N)
+\end{bmatrix}\\
+& = \begin{bmatrix}
+f(x_1)\\
+f(x_2)\\
+.  \\
+.  \\
+f(x_N)
+\end{bmatrix} \begin{bmatrix}
+f(x_1) & f(x_2) & . & . & f(x_N)
+\end{bmatrix}\\
+& = \boldsymbol{FF^T}
+\end{split}</script>
+</div>
+<p>Now taking any vector <span><span class="MathJax_Preview">X</span><script type="math/tex">X</script></span> and evaluating <span><span class="MathJax_Preview">X^TK_4X</span><script type="math/tex">X^TK_4X</script></span></p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+X^TK_4X &amp; = X^T\boldsymbol{FF^T}X \\
+&amp; = (\boldsymbol{F^T}X)^T \boldsymbol{F^T}X\\
+&amp; = ||\boldsymbol{F^T}X||^2\\
+&amp; \geq 0
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+X^TK_4X & = X^T\boldsymbol{FF^T}X \\
+& = (\boldsymbol{F^T}X)^T \boldsymbol{F^T}X\\
+& = ||\boldsymbol{F^T}X||^2\\
+& \geq 0
+\end{split}</script>
+</div>
+<p>Therefore <span><span class="MathJax_Preview">K_4</span><script type="math/tex">K_4</script></span> is also a positive semidefinite matrix.</p>
+<h2 id="3c">3.c</h2>
+<p><span><span class="MathJax_Preview">K_5</span><script type="math/tex">K_5</script></span> has been defined by kernel function
+<span><span class="MathJax_Preview">k_5(x_1,x_2) = k_1(x_1, x_2)k_2(x_1,x_2)</span><script type="math/tex">k_5(x_1,x_2) = k_1(x_1, x_2)k_2(x_1,x_2)</script></span> , the matrix representation
+will look like following:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+K_5 &amp; = \begin{bmatrix}
+k_5(x_1,x_1) &amp; k_5(x_1,x_2) &amp;  . &amp; .&amp; . &amp; k_5(x_1, x_N)\\
+k_5(x_2,x_1) &amp; k_5(x_2,x_2) &amp;  . &amp; .&amp; . &amp; k_5(x_2, x_N)\\
+. &amp; . &amp; . &amp; . &amp; . &amp; .  \\
+. &amp; . &amp; . &amp; . &amp; . &amp; .  \\
+k_5(x_N,x_1) &amp; k_5(x_N,x_2) &amp;  . &amp; .&amp; . &amp; k_5(x_N, x_N)
+\end{bmatrix}\\
+&amp; = \begin{bmatrix}
+k_1(x_1,x_1)k_2(x_1,x_1) &amp; k_1(x_1,x_2)k_2(x_1,x_2) &amp;  . &amp; .&amp; . &amp; k_1(x_1,x_N)k_2(x_1,x_N)\\
+k_1(x_2,x_1)k_2(x_2,x_1) &amp; k_1(x_2,x_2)k_2(x_2,x_2) &amp;  . &amp; .&amp; . &amp; k_1(x_2, x_N)k_2(x_2,x_N)\\
+. &amp; . &amp; . &amp; . &amp; . &amp; .  \\
+. &amp; . &amp; . &amp; . &amp; . &amp; .  \\
+k_1(x_N,x_1)k_2(x_N,x_1) &amp; k_1(x_N,x_2)k_2(x_N,x_2) &amp;  . &amp; .&amp; . &amp; k_1(x_N, x_N)k_2(x_N,x_N)
+\end{bmatrix}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+K_5 & = \begin{bmatrix}
+k_5(x_1,x_1) & k_5(x_1,x_2) &  . & .& . & k_5(x_1, x_N)\\
+k_5(x_2,x_1) & k_5(x_2,x_2) &  . & .& . & k_5(x_2, x_N)\\
+. & . & . & . & . & .  \\
+. & . & . & . & . & .  \\
+k_5(x_N,x_1) & k_5(x_N,x_2) &  . & .& . & k_5(x_N, x_N)
+\end{bmatrix}\\
+& = \begin{bmatrix}
+k_1(x_1,x_1)k_2(x_1,x_1) & k_1(x_1,x_2)k_2(x_1,x_2) &  . & .& . & k_1(x_1,x_N)k_2(x_1,x_N)\\
+k_1(x_2,x_1)k_2(x_2,x_1) & k_1(x_2,x_2)k_2(x_2,x_2) &  . & .& . & k_1(x_2, x_N)k_2(x_2,x_N)\\
+. & . & . & . & . & .  \\
+. & . & . & . & . & .  \\
+k_1(x_N,x_1)k_2(x_N,x_1) & k_1(x_N,x_2)k_2(x_N,x_2) &  . & .& . & k_1(x_N, x_N)k_2(x_N,x_N)
+\end{bmatrix}
+\end{split}</script>
+</div>
+<p>Referring to Wikipedia web resource about Hadamard product, Schur
+product theorem it can be proved that the above kernel function is PSD
+(by the help of Wick’s theorem). Since <span><span class="MathJax_Preview">k_1</span><script type="math/tex">k_1</script></span> and <span><span class="MathJax_Preview">k_2</span><script type="math/tex">k_2</script></span> are kernel
+function (so the matrix will be PSD). and their entrywise multiplication
+(Hadamard product) is the above resulting matrix. So it will be a PSD.</p>
+<h1 id="bias-variance-tradeoff">Bias Variance Tradeoff</h1>
+<h1 id="programming">Programming</h1>
+<h2 id="data-preparation">Data preparation</h2>
+<h2 id="feature-representation">Feature representation</h2>
+<h2 id="1">(1)</h2>
+<p>Top 3 most frequent words found in spam/ham data set are as following</p>
+<hr />
+<p>enron    600<br />
+    will    351<br />
+   please   291  </p>
+<hr />
+<p>In ionosphere data I have used 1 for label “g” and 0 for label “b”.
+Initialization and extreme conditions has been considered during
+implementation.</p>
+<h2 id="batch-gradient-descent">Batch Gradient descent</h2>
+<h2 id="2">(2)</h2>
+<p>Updating equation of <span><span class="MathJax_Preview">\boldsymbol{w}</span><script type="math/tex">\boldsymbol{w}</script></span> and b. Here <span><span class="MathJax_Preview">\boldsymbol{x}</span><script type="math/tex">\boldsymbol{x}</script></span> is
+<span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span>x<span><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span> vector where <span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span> is number of data points, and <span><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span> is feature
+dimension. <span><span class="MathJax_Preview">y</span><script type="math/tex">y</script></span> is <span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span>x<span><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> vector. <span><span class="MathJax_Preview">\boldsymbol{w}</span><script type="math/tex">\boldsymbol{w}</script></span> is <span><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span>x<span><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> vector and
+<span><span class="MathJax_Preview">\boldsymbol{b}_t</span><script type="math/tex">\boldsymbol{b}_t</script></span> is a <span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span>x<span><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> vector with each row having same values
+which is equal to bias. Without regularization:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\boldsymbol{w_{t+1}} &amp; = \boldsymbol{w_t} - \eta*\left(\boldsymbol{x}^T\left(\sigma(\boldsymbol{b}_t+\boldsymbol{x}\boldsymbol{w}_t) - \boldsymbol{y}
+\right)
+\right)\\
+b_{t+1} &amp; = b_{t} - \eta * \left(\boldsymbol{y}^T* (1 - \sigma(\boldsymbol{b}_t + \boldsymbol{x}\boldsymbol{w}_t) - (1- \boldsymbol{y}) *(\sigma(\boldsymbol{b}_t+\boldsymbol{x}\boldsymbol{w}_t))
+\right)
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\boldsymbol{w_{t+1}} & = \boldsymbol{w_t} - \eta*\left(\boldsymbol{x}^T\left(\sigma(\boldsymbol{b}_t+\boldsymbol{x}\boldsymbol{w}_t) - \boldsymbol{y}
+\right)
+\right)\\
+b_{t+1} & = b_{t} - \eta * \left(\boldsymbol{y}^T* (1 - \sigma(\boldsymbol{b}_t + \boldsymbol{x}\boldsymbol{w}_t) - (1- \boldsymbol{y}) *(\sigma(\boldsymbol{b}_t+\boldsymbol{x}\boldsymbol{w}_t))
+\right)
+\end{split}</script>
+</div>
+<p>With Regularization:</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+\boldsymbol{w_{t+1}} &amp; = \boldsymbol{w_t} - \eta*\left(\boldsymbol{x}^T\left(\sigma(\boldsymbol{b}_t+\boldsymbol{x}\boldsymbol{w}_t) - \boldsymbol{y}
+\right)
++ 2*\lambda*\boldsymbol{w}_t
+\right)\\
+b_{t+1} &amp; = b_{t} - \eta * \left(\boldsymbol{y}^T* (1 - \sigma(\boldsymbol{b}_t + \boldsymbol{x}\boldsymbol{w}_t) - (1- \boldsymbol{y}) *(\sigma(\boldsymbol{b}_t+\boldsymbol{x}\boldsymbol{w}_t))
+\right)
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+\boldsymbol{w_{t+1}} & = \boldsymbol{w_t} - \eta*\left(\boldsymbol{x}^T\left(\sigma(\boldsymbol{b}_t+\boldsymbol{x}\boldsymbol{w}_t) - \boldsymbol{y}
+\right)
++ 2*\lambda*\boldsymbol{w}_t
+\right)\\
+b_{t+1} & = b_{t} - \eta * \left(\boldsymbol{y}^T* (1 - \sigma(\boldsymbol{b}_t + \boldsymbol{x}\boldsymbol{w}_t) - (1- \boldsymbol{y}) *(\sigma(\boldsymbol{b}_t+\boldsymbol{x}\boldsymbol{w}_t))
+\right)
+\end{split}</script>
+</div>
+<h2 id="3a_1">(3)a</h2>
+<div>
+<div class="MathJax_Preview">fig:example</div>
+<script type="math/tex; mode=display">fig:example</script>
+</div>
+<h2 id="3b_1">(3)b</h2>
+<p><span><span class="MathJax_Preview">L2</span><script type="math/tex">L2</script></span> norm of <span><span class="MathJax_Preview">\boldsymbol{w}</span><script type="math/tex">\boldsymbol{w}</script></span> after 50 iterations for each step size
+<span><span class="MathJax_Preview">\eta_i</span><script type="math/tex">\eta_i</script></span></p>
+<hr />
+<hr />
+<h2 id="4a">(4)a</h2>
+<div>
+<div class="MathJax_Preview">fig:example</div>
+<script type="math/tex; mode=display">fig:example</script>
+</div>
+<h2 id="4b">(4)b</h2>
+<hr />
+<hr />
+<h2 id="4c">(4)c</h2>
+<div>
+<div class="MathJax_Preview">fig:example</div>
+<script type="math/tex; mode=display">fig:example</script>
+</div>
+<h2 id="5">(5)</h2>
+<p>Note: Here we add one column (with all entries = 1 ) in the beginning of
+input data matrix and the seed intercept <span><span class="MathJax_Preview">b</span><script type="math/tex">b</script></span> as row 1 in the weight
+vector to inculcate the bias. <strong>Without Regularization:</strong> (Using the
+notations and assumptions of (2)) Here I am using the derivation of
+Hessian directly because it was already described in assignment #1.
+Here <span><span class="MathJax_Preview">H_b</span><script type="math/tex">H_b</script></span> is used for second derivative w.r.t. bias.</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+H &amp; = \frac{\partial^2 \varepsilon(\boldsymbol{w},b)}{\boldsymbol{ww^T}} \\
+ &amp; = \boldsymbol{x^T}\sigma(b+ \boldsymbol{xw})(1-\sigma(\boldsymbol{b}+\boldsymbol{xw}))\boldsymbol{x}\\
+ \frac{\partial(\varepsilon(\boldsymbol{w},b))}{\partial b} &amp; = - \left( \sum_{i = 1}^{N} \left( y_i - \sigma(b + \boldsymbol{x_iw}
+ \right)
+ \right) \\
+ H_b =  \frac{\partial^2(\varepsilon(\boldsymbol{w},b))}{\partial b^2} &amp; = \sum_{i=1}^{N} \left(\sigma(b + \boldsymbol{xw})*(1-\sigma(b + \boldsymbol{xw})
+  \right) \\
+\boldsymbol{w_{t+1}} &amp; = \boldsymbol{w_t} - H_t^{-1}\nabla\varepsilon_t \\
+b_{t+1} &amp; = b_t - (H_b)^{-1} * \frac{\partial(\varepsilon(\boldsymbol{w},b))}{\partial b}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+H & = \frac{\partial^2 \varepsilon(\boldsymbol{w},b)}{\boldsymbol{ww^T}} \\
+ & = \boldsymbol{x^T}\sigma(b+ \boldsymbol{xw})(1-\sigma(\boldsymbol{b}+\boldsymbol{xw}))\boldsymbol{x}\\
+ \frac{\partial(\varepsilon(\boldsymbol{w},b))}{\partial b} & = - \left( \sum_{i = 1}^{N} \left( y_i - \sigma(b + \boldsymbol{x_iw}
+ \right)
+ \right) \\
+ H_b =  \frac{\partial^2(\varepsilon(\boldsymbol{w},b))}{\partial b^2} & = \sum_{i=1}^{N} \left(\sigma(b + \boldsymbol{xw})*(1-\sigma(b + \boldsymbol{xw})
+  \right) \\
+\boldsymbol{w_{t+1}} & = \boldsymbol{w_t} - H_t^{-1}\nabla\varepsilon_t \\
+b_{t+1} & = b_t - (H_b)^{-1} * \frac{\partial(\varepsilon(\boldsymbol{w},b))}{\partial b}
+\end{split}</script>
+</div>
+<p>**With Regularization** In this case we shall add <span><span class="MathJax_Preview">2*\lambda</span><script type="math/tex">2*\lambda</script></span> to
+diagonal entries of the hessian matrx that we found in case of without
+regularization(because for <span><span class="MathJax_Preview">i\neq j</span><script type="math/tex">i\neq j</script></span> the second derivative will be zero
+for regularized term). And in the first derivative we shall have
+<span><span class="MathJax_Preview">2*\lambda*\boldsymbol{w}</span><script type="math/tex">2*\lambda*\boldsymbol{w}</script></span> added to the weight vector. The bias is not
+affected by regularization.</p>
+<div>
+<div class="MathJax_Preview">\begin{split}
+H &amp; = \frac{\partial^2 \varepsilon(\boldsymbol{w},b)}{\boldsymbol{ww^T}} \\
+ &amp; = \boldsymbol{x^T}\sigma(b+ \boldsymbol{xw})(1-\sigma(\boldsymbol{b}+\boldsymbol{xw}))\boldsymbol{x} + 2*\lambda*\boldsymbol{I}\\
+ \frac{\partial(\varepsilon(\boldsymbol{w},b))}{\partial b} &amp; = - \left( \sum_{i = 1}^{N} \left( y_i - \sigma(b + \boldsymbol{x_iw}
+  \right)
+  \right) \\
+  H_b =  \frac{\partial^2(\varepsilon(\boldsymbol{w},b))}{\partial b^2} &amp; = \sum_{i=1}^{N} \left(\sigma(b + \boldsymbol{xw})*(1-\sigma(b + \boldsymbol{xw})
+   \right) \\
+ \boldsymbol{w_{t+1}} &amp; = \boldsymbol{w_t} - H_t^{-1}\nabla\varepsilon_t \\
+ b_{t+1} &amp; = b_t - (H_b)^{-1} * \frac{\partial(\varepsilon(\boldsymbol{w},b))}{\partial b}
+\end{split}</div>
+<script type="math/tex; mode=display">\begin{split}
+H & = \frac{\partial^2 \varepsilon(\boldsymbol{w},b)}{\boldsymbol{ww^T}} \\
+ & = \boldsymbol{x^T}\sigma(b+ \boldsymbol{xw})(1-\sigma(\boldsymbol{b}+\boldsymbol{xw}))\boldsymbol{x} + 2*\lambda*\boldsymbol{I}\\
+ \frac{\partial(\varepsilon(\boldsymbol{w},b))}{\partial b} & = - \left( \sum_{i = 1}^{N} \left( y_i - \sigma(b + \boldsymbol{x_iw}
+  \right)
+  \right) \\
+  H_b =  \frac{\partial^2(\varepsilon(\boldsymbol{w},b))}{\partial b^2} & = \sum_{i=1}^{N} \left(\sigma(b + \boldsymbol{xw})*(1-\sigma(b + \boldsymbol{xw})
+   \right) \\
+ \boldsymbol{w_{t+1}} & = \boldsymbol{w_t} - H_t^{-1}\nabla\varepsilon_t \\
+ b_{t+1} & = b_t - (H_b)^{-1} * \frac{\partial(\varepsilon(\boldsymbol{w},b))}{\partial b}
+\end{split}</script>
+</div>
+<h2 id="6a">(6)a</h2>
+<div>
+<div class="MathJax_Preview">fig:example</div>
+<script type="math/tex; mode=display">fig:example</script>
+</div>
+<h2 id="6b">(6)b</h2>
+<p>L2 norm of w without regularization:</p>
+<hr />
+<hr />
+<h2 id="6c">(6)c</h2>
+<p>Cross entropy of test data using newtons method (showed upto steps where
+it converges)</p>
+<hr />
+<hr />
+<h2 id="7a">(7)a</h2>
+<div>
+<div class="MathJax_Preview">fig:example</div>
+<script type="math/tex; mode=display">fig:example</script>
+</div>
+<h2 id="7b">(7)b</h2>
+<p>L2 norm of vector <span><span class="MathJax_Preview">\boldsymbol{w}</span><script type="math/tex">\boldsymbol{w}</script></span></p>
+<hr />
+<hr />
+<h2 id="8">(8)</h2>
+<p>In (3)a we see that with increase in step size overdamped situation is
+found. Even with the regularization (in 4(a)) we see the spikes. The
+behavior with higher values of <span><span class="MathJax_Preview">\lambda</span><script type="math/tex">\lambda</script></span> in training and testing cross
+entropies with different step sizes. At higher values of step size and
+high values of lambda we expect to see the high value of CE which can be
+seen in the plots. In newton method we can see very sharp convergence
+within 5 steps, but we do see the trade off in time complexity w.r.t
+gradient descent method. It has not been reported but I did see giving
+good values of weight vector newton method converges very fast</p></div>
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+    </footer>
+
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>
